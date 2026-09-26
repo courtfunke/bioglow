@@ -1,18 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FLL 2026 BioGlow Founders Edition - Official Interactive Scoresheet</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FLL BIOGLOW Founders Edition Scorer</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Google Fonts: Inter & JetBrains Mono -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
-  
   <script>
     tailwind.config = {
       darkMode: 'class',
@@ -20,809 +15,499 @@
         extend: {
           colors: {
             bio: {
-              50: '#f0fdfa',
-              100: '#ccfbf1',
-              400: '#2dd4bf',
-              500: '#14b8a6',
-              600: '#0d9488',
-              800: '#115e59',
-              900: '#134e4a',
-              950: '#042f2e',
-            },
-            glow: {
-              cyan: '#00f0ff',
-              green: '#10b981',
-              lime: '#84cc16',
-              purple: '#a855f7',
-              dark: '#0a1114'
+              50: '#f0fdf4',
+              100: '#dcfce7',
+              400: '#4ade80',
+              500: '#22c55e',
+              600: '#16a34a',
+              800: '#166534',
+              900: '#14532d',
+              950: '#052e16',
             }
-          },
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            mono: ['JetBrains Mono', 'monospace'],
           }
         }
       }
     }
   </script>
-
-  <style>
-    body {
-      background-color: #060c0e;
-      color: #e2e8f0;
-      font-family: 'Inter', sans-serif;
-      background-image: 
-        radial-gradient(circle at 15% 15%, rgba(0, 240, 255, 0.05) 0%, transparent 40%),
-        radial-gradient(circle at 85% 85%, rgba(16, 185, 129, 0.05) 0%, transparent 40%);
-      background-attachment: fixed;
-    }
-
-    .glow-border {
-      box-shadow: 0 0 15px -3px rgba(45, 212, 191, 0.2);
-    }
-    
-    .glow-border:hover {
-      box-shadow: 0 0 20px 0px rgba(0, 240, 255, 0.35);
-    }
-
-    .glow-text {
-      text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
-    }
-
-    /* Custom Radio & Checkbox styling */
-    .custom-option-card {
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .custom-option-card:hover {
-      border-color: rgba(45, 212, 191, 0.5);
-      transform: translateY(-1px);
-    }
-    input[type="radio"]:checked + .option-label,
-    input[type="checkbox"]:checked + .option-label {
-      border-color: #2dd4bf;
-      background-color: rgba(20, 184, 166, 0.15);
-      box-shadow: inset 0 0 12px rgba(45, 212, 191, 0.2);
-    }
-
-    /* Custom scrollbars */
-    ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #091316;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #1e3a3a;
-      border-radius: 4px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #2dd4bf;
-    }
-  </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between selection:bg-bio-500 selection:text-white">
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans">
 
-  <!-- Top Navigation Header -->
-  <header class="sticky top-0 z-40 bg-glow-dark/90 backdrop-blur-md border-b border-bio-900/60 shadow-lg">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+  <!-- Header -->
+  <header class="border-b border-bio-800/40 bg-slate-900/90 backdrop-blur sticky top-0 z-40">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
       <div class="flex items-center space-x-3">
-        <div class="p-2.5 bg-bio-950 border border-bio-500/40 rounded-xl text-bio-400 shadow-inner">
-          <i data-lucide="biohazard" class="w-7 h-7 text-glow-cyan animate-pulse"></i>
+        <div class="p-2 bg-bio-500/10 rounded-xl border border-bio-500/30 text-bio-400">
+          <i data-lucide="leaf" class="w-6 h-6"></i>
         </div>
         <div>
-          <div class="flex items-center space-x-2">
-            <h1 class="text-xl font-extrabold tracking-tight text-white font-mono">BIOGLOW <span class="text-bio-400 font-normal">2026</span></h1>
-            <span class="px-2 py-0.5 text-xs font-semibold bg-bio-900/80 text-bio-400 border border-bio-500/30 rounded-full">Founders Edition</span>
-          </div>
-          <p class="text-xs text-slate-400">FIRST® LEGO® League Official Scoring Engine</p>
+          <h1 class="text-xl font-bold bg-gradient-to-r from-bio-400 to-emerald-200 bg-clip-text text-transparent">
+            BIOGLOW Founders Edition
+          </h1>
+          <p class="text-xs text-slate-400">Official FLL 2026-2027 Calculator</p>
         </div>
       </div>
 
-      <!-- Live Total Score Display (Desktop) -->
-      <div class="hidden sm:flex items-center space-x-6">
-        <div class="text-right">
-          <span class="text-xs uppercase tracking-widest text-slate-400 font-semibold block">Total Score</span>
-          <div class="flex items-baseline space-x-1">
-            <span id="headerTotalScore" class="text-3xl font-black font-mono text-glow-cyan glow-text">0</span>
-            <span class="text-xs text-bio-400 font-bold">PTS</span>
-          </div>
-        </div>
-        <button onclick="toggleSettingsModal(true)" class="p-2.5 bg-bio-950/80 hover:bg-bio-900 border border-bio-800 hover:border-bio-500 text-slate-300 hover:text-white rounded-xl transition duration-150 flex items-center gap-2 text-sm font-medium">
-          <i data-lucide="settings" class="w-4 h-4"></i>
-          <span>Setup Sheets</span>
-        </button>
-      </div>
-
-      <!-- Mobile Settings Trigger -->
-      <button onclick="toggleSettingsModal(true)" class="sm:hidden p-2 text-slate-300 hover:text-white bg-bio-950 border border-bio-800 rounded-lg">
-        <i data-lucide="settings" class="w-5 h-5"></i>
+      <button id="openSettingsBtn" class="px-3 py-2 text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg border border-slate-700 transition flex items-center gap-2">
+        <i data-lucide="settings" class="w-4 h-4"></i>
+        Google Sheets Sync
       </button>
     </div>
   </header>
 
-  <!-- Main Container -->
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full space-y-6 flex-grow">
-
-    <!-- Match Info & Timer Dashboard -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+  <!-- Main Grid -->
+  <main class="max-w-6xl mx-auto px-4 py-6 grid grid-cols-1 lg:grid-cols-3 gap-6 flex-1 w-full">
+    
+    <!-- Left 2 Cols: Mission Controls -->
+    <div class="lg:col-span-2 space-y-5">
       
-      <!-- Match Information Inputs -->
-      <div class="lg:col-span-8 bg-bio-950/60 border border-bio-900/80 rounded-2xl p-4 sm:p-5 backdrop-blur-sm grid grid-cols-1 gap-4 shadow-lg">
-        <div>
-          <label for="teamName" class="block text-xs font-semibold uppercase text-bio-400 tracking-wider mb-1.5 flex items-center gap-1.5">
-            <i data-lucide="users" class="w-3.5 h-3.5"></i> Select Team
-          </label>
-          <select id="teamName" class="w-full bg-slate-950/80 border border-bio-800/80 focus:border-bio-400 focus:ring-1 focus:ring-bio-400 text-white rounded-lg px-3 py-2 text-sm transition outline-none cursor-pointer">
-            <option value="Biobots">Biobots</option>
-            <option value="Codebreakers">Codebreakers</option>
-            <option value="Roz">Roz</option>
-          </select>
-        </div>
+      <!-- Team Selector Box -->
+      <div class="bg-slate-900/90 rounded-2xl p-5 border border-slate-800 shadow-lg">
+        <label for="teamSelect" class="block text-sm font-semibold text-bio-400 mb-2 flex items-center gap-2">
+          <i data-lucide="users" class="w-4 h-4"></i>
+          Select Team Name
+        </label>
+        <select id="teamSelect" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white text-base font-medium focus:ring-2 focus:ring-bio-500 focus:outline-none">
+          <option value="Biobots">Biobots</option>
+          <option value="Codebreakers">Codebreakers</option>
+          <option value="Roz">Roz</option>
+        </select>
       </div>
 
-      <!-- Live Match Countdown Timer -->
-
+      <!-- Equipment Inspection Bonus -->
+      <div class="bg-slate-900/90 rounded-2xl p-4 border border-slate-800 flex items-center justify-between">
         <div>
-          <label for="teamName" class="block text-xs font-semibold uppercase text-bio-400 tracking-wider mb-1.5 flex items-center gap-1.5">
-            <i data-lucide="users" class="w-3.5 h-3.5"></i> Team Name
-          </label>
-          <input type="text" id="teamName" placeholder="e.g. BioBots Alpha" class="w-full bg-slate-950/80 border border-bio-800/80 focus:border-bio-400 focus:ring-1 focus:ring-bio-400 text-white rounded-lg px-3 py-2 text-sm transition outline-none">
+          <h3 class="font-bold text-slate-200 text-sm">Equipment Inspection Bonus</h3>
+          <p class="text-xs text-slate-400">All equipment fits completely in one launch area</p>
         </div>
-        <div>
-          <label for="teamNumber" class="block text-xs font-semibold uppercase text-bio-400 tracking-wider mb-1.5 flex items-center gap-1.5">
-            <i data-lucide="hash" class="w-3.5 h-3.5"></i> Team Number
-          </label>
-          <input type="number" id="teamNumber" placeholder="e.g. 45210" class="w-full bg-slate-950/80 border border-bio-800/80 focus:border-bio-400 focus:ring-1 focus:ring-bio-400 text-white rounded-lg px-3 py-2 text-sm transition outline-none">
-        </div>
-        <div>
-          <label for="matchNumber" class="block text-xs font-semibold uppercase text-bio-400 tracking-wider mb-1.5 flex items-center gap-1.5">
-            <i data-lucide="trophy" class="w-3.5 h-3.5"></i> Match / Round
-          </label>
-          <input type="text" id="matchNumber" placeholder="e.g. Round 1" class="w-full bg-slate-950/80 border border-bio-800/80 focus:border-bio-400 focus:ring-1 focus:ring-bio-400 text-white rounded-lg px-3 py-2 text-sm transition outline-none">
-        </div>
+        <input type="checkbox" id="inspectionBonus" class="w-5 h-5 accent-bio-500 rounded cursor-pointer" onchange="calculateScore()">
       </div>
 
-      <!-- Live Match Countdown Timer -->
-      <div class="lg:col-span-4 bg-bio-950/60 border border-bio-900/80 rounded-2xl p-4 sm:p-5 backdrop-blur-sm flex flex-col justify-between shadow-lg">
-        <div class="flex justify-between items-center mb-2">
-          <span class="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-            <i data-lucide="clock" class="w-3.5 h-3.5 text-glow-cyan"></i> Match Timer
-          </span>
-          <span id="timerStatus" class="text-xs font-mono font-semibold px-2 py-0.5 rounded bg-slate-900 text-slate-400 border border-slate-800">READY</span>
-        </div>
-        <div class="flex items-center justify-between">
-          <span id="timerDisplay" class="text-3xl sm:text-4xl font-extrabold font-mono text-white tracking-widest">02:30</span>
-          <div class="flex space-x-2">
-            <button id="btnStartTimer" onclick="toggleTimer()" class="p-2.5 bg-bio-600 hover:bg-bio-500 text-slate-950 font-bold rounded-lg transition duration-150 shadow-md">
-              <i data-lucide="play" id="iconTimerPlay" class="w-5 h-5 fill-current"></i>
-            </button>
-            <button onclick="resetTimer()" class="p-2.5 bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700 rounded-lg transition duration-150">
-              <i data-lucide="rotate-ccw" class="w-5 h-5"></i>
-            </button>
+      <!-- Missions Section -->
+      <div class="space-y-4">
+
+        <!-- M01: Drone Survey -->
+        <div class="bg-slate-900/90 rounded-2xl p-5 border border-slate-800 shadow-md">
+          <div class="flex justify-between items-center mb-3">
+            <h3 class="font-bold text-base text-bio-400">M01 - Drone Survey</h3>
+            <span id="score_m01" class="text-xs font-bold bg-bio-500/20 text-bio-300 px-3 py-1 rounded-full border border-bio-500/30">0 pts</span>
+          </div>
+          <div class="space-y-2 text-sm">
+            <label class="flex items-center justify-between p-3 bg-slate-950/60 rounded-xl border border-slate-800 cursor-pointer">
+              <span class="text-slate-300">Drone is completely off the mat (+20)</span>
+              <input type="checkbox" id="m01_cb1" class="w-5 h-5 accent-bio-500 rounded cursor-pointer" onchange="calculateScore()">
+            </label>
+            <label class="flex items-center justify-between p-3 bg-slate-950/60 rounded-xl border border-slate-800 cursor-pointer">
+              <span class="text-slate-300">LiDAR map is flipped (+10 bonus)</span>
+              <input type="checkbox" id="m01_cb2" class="w-5 h-5 accent-bio-500 rounded cursor-pointer" onchange="calculateScore()">
+            </label>
           </div>
         </div>
+
+        <!-- M02: Exploding Seeds -->
+        <div class="bg-slate-900/90 rounded-2xl p-5 border border-slate-800 shadow-md">
+          <div class="flex justify-between items-center mb-3">
+            <h3 class="font-bold text-base text-bio-400">M02 - Exploding Seeds</h3>
+            <span id="score_m02" class="text-xs font-bold bg-bio-500/20 text-bio-300 px-3 py-1 rounded-full border border-bio-500/30">0 pts</span>
+          </div>
+          <div class="p-3 bg-slate-950/60 rounded-xl border border-slate-800 flex items-center justify-between text-sm">
+            <span class="text-slate-300">Seeds detached from stalk (10 pts each, max 3)</span>
+            <div class="flex items-center gap-3">
+              <button type="button" onclick="adjustQty('m02_qty', -1, 3)" class="w-8 h-8 rounded-lg bg-slate-800 text-white font-bold hover:bg-slate-700">-</button>
+              <span id="m02_qty" class="w-6 text-center font-bold text-bio-400">0</span>
+              <button type="button" onclick="adjustQty('m02_qty', 1, 3)" class="w-8 h-8 rounded-lg bg-slate-800 text-white font-bold hover:bg-slate-700">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- M03: Flip the Rock -->
+        <div class="bg-slate-900/90 rounded-2xl p-5 border border-slate-800 shadow-md">
+          <div class="flex justify-between items-center mb-3">
+            <h3 class="font-bold text-base text-bio-400">M03 - Flip the Rock</h3>
+            <span id="score_m03" class="text-xs font-bold bg-bio-500/20 text-bio-300 px-3 py-1 rounded-full border border-bio-500/30">0 pts</span>
+          </div>
+          <div class="space-y-2 text-sm">
+            <label class="flex items-center justify-between p-3 bg-slate-950/60 rounded-xl border border-slate-800 cursor-pointer">
+              <span class="text-slate-300">Research flag knocked down (+20)</span>
+              <input type="checkbox" id="m03_cb1" class="w-5 h-5 accent-bio-500 rounded cursor-pointer" onchange="calculateScore()">
+            </label>
+            <label class="flex items-center justify-between p-3 bg-slate-950/60 rounded-xl border border-slate-800 cursor-pointer">
+              <span class="text-slate-300">Rock returned (+10 bonus)</span>
+              <input type="checkbox" id="m03_cb2" class="w-5 h-5 accent-bio-500 rounded cursor-pointer" onchange="calculateScore()">
+            </label>
+          </div>
+        </div>
+
+        <!-- M04: Lucky Leaves -->
+        <div class="bg-slate-900/90 rounded-2xl p-5 border border-slate-800 shadow-md">
+          <div class="flex justify-between items-center mb-3">
+            <h3 class="font-bold text-base text-bio-400">M04 - Lucky Leaves</h3>
+            <span id="score_m04" class="text-xs font-bold bg-bio-500/20 text-bio-300 px-3 py-1 rounded-full border border-bio-500/30">0 pts</span>
+          </div>
+          <div class="space-y-2 text-sm">
+            <label class="flex items-center justify-between p-3 bg-slate-950/60 rounded-xl border border-slate-800 cursor-pointer">
+              <span class="text-slate-300">Katydid remained undisturbed inside habitat</span>
+              <input type="checkbox" id="m04_katydid" class="w-5 h-5 accent-bio-500 rounded cursor-pointer" onchange="calculateScore()" checked>
+            </label>
+            <div class="p-3 bg-slate-950/60 rounded-xl border border-slate-800 flex items-center justify-between">
+              <span class="text-slate-300">Leaves removed (1st = 10 pts, 2nd = 20 pts)</span>
+              <div class="flex items-center gap-3">
+                <button type="button" onclick="adjustQty('m04_qty', -1, 2)" class="w-8 h-8 rounded-lg bg-slate-800 text-white font-bold hover:bg-slate-700">-</button>
+                <span id="m04_qty" class="w-6 text-center font-bold text-bio-400">0</span>
+                <button type="button" onclick="adjustQty('m04_qty', 1, 2)" class="w-8 h-8 rounded-lg bg-slate-800 text-white font-bold hover:bg-slate-700">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- M05: Reaching Roots -->
+        <div class="bg-slate-900/90 rounded-2xl p-5 border border-slate-800 shadow-md">
+          <div class="flex justify-between items-center mb-3">
+            <h3 class="font-bold text-base text-bio-400">M05 - Reaching Roots</h3>
+            <span id="score_m05" class="text-xs font-bold bg-bio-500/20 text-bio-300 px-3 py-1 rounded-full border border-bio-500/30">0 pts</span>
+          </div>
+          <div class="p-3 bg-slate-950/60 rounded-xl border border-slate-800 flex items-center justify-between text-sm">
+            <span class="text-slate-300">Root extension across forest boundary</span>
+            <select id="m05_select" class="bg-slate-900 text-slate-200 border border-slate-700 rounded-lg px-2 py-1" onchange="calculateScore()">
+              <option value="0">None (0 pts)</option>
+              <option value="10">Partial Extension (+10)</option>
+              <option value="20">Full Extension (+20)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- M09: Research Platform -->
+        <div class="bg-slate-900/90 rounded-2xl p-5 border border-slate-800 shadow-md">
+          <div class="flex justify-between items-center mb-3">
+            <h3 class="font-bold text-base text-bio-400">M09 - Research Platform</h3>
+            <span id="score_m09" class="text-xs font-bold bg-bio-500/20 text-bio-300 px-3 py-1 rounded-full border border-bio-500/30">0 pts</span>
+          </div>
+          <div class="space-y-2 text-sm">
+            <label class="flex items-center justify-between p-3 bg-slate-950/60 rounded-xl border border-slate-800 cursor-pointer">
+              <span class="text-slate-300">Platform raised (+10)</span>
+              <input type="checkbox" id="m09_cb1" class="w-5 h-5 accent-bio-500 rounded cursor-pointer" onchange="calculateScore()">
+            </label>
+            <label class="flex items-center justify-between p-3 bg-slate-950/60 rounded-xl border border-slate-800 cursor-pointer">
+              <span class="text-slate-300">Camera trap deployed (+10)</span>
+              <input type="checkbox" id="m09_cb2" class="w-5 h-5 accent-bio-500 rounded cursor-pointer" onchange="calculateScore()">
+            </label>
+            <label class="flex items-center justify-between p-3 bg-slate-950/60 rounded-xl border border-slate-800 cursor-pointer">
+              <span class="text-slate-300">Seed removed (+10)</span>
+              <input type="checkbox" id="m09_cb3" class="w-5 h-5 accent-bio-500 rounded cursor-pointer" onchange="calculateScore()">
+            </label>
+          </div>
+        </div>
+
+        <!-- M13: Keystone Species & Restoration -->
+        <div class="bg-slate-900/90 rounded-2xl p-5 border border-slate-800 shadow-md">
+          <div class="flex justify-between items-center mb-3">
+            <h3 class="font-bold text-base text-bio-400">M13 - Keystone Species</h3>
+            <span id="score_m13" class="text-xs font-bold bg-bio-500/20 text-bio-300 px-3 py-1 rounded-full border border-bio-500/30">0 pts</span>
+          </div>
+          <label class="flex items-center justify-between p-3 bg-slate-950/60 rounded-xl border border-slate-800 cursor-pointer text-sm">
+            <span class="text-slate-300">Keystone animal built & placed on platform (+30)</span>
+            <input type="checkbox" id="m13_cb1" class="w-5 h-5 accent-bio-500 rounded cursor-pointer" onchange="calculateScore()">
+          </label>
+        </div>
+
+        <!-- M14: Replantation Station -->
+        <div class="bg-slate-900/90 rounded-2xl p-5 border border-slate-800 shadow-md">
+          <div class="flex justify-between items-center mb-3">
+            <h3 class="font-bold text-base text-bio-400">M14 - Replantation Station</h3>
+            <span id="score_m14" class="text-xs font-bold bg-bio-500/20 text-bio-300 px-3 py-1 rounded-full border border-bio-500/30">0 pts</span>
+          </div>
+          <div class="p-3 bg-slate-950/60 rounded-xl border border-slate-800 flex items-center justify-between text-sm">
+            <span class="text-slate-300">Seeds placed in station (5 pts each)</span>
+            <div class="flex items-center gap-3">
+              <button type="button" onclick="adjustQty('m14_qty', -1, 4)" class="w-8 h-8 rounded-lg bg-slate-800 text-white font-bold hover:bg-slate-700">-</button>
+              <span id="m14_qty" class="w-6 text-center font-bold text-bio-400">0</span>
+              <button type="button" onclick="adjustQty('m14_qty', 1, 4)" class="w-8 h-8 rounded-lg bg-slate-800 text-white font-bold hover:bg-slate-700">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Precision Tokens -->
+        <div class="bg-slate-900/90 rounded-2xl p-5 border border-slate-800 shadow-md">
+          <div class="flex justify-between items-center mb-3">
+            <h3 class="font-bold text-base text-bio-400">Precision Tokens Remaining</h3>
+            <span id="score_precision" class="text-xs font-bold bg-bio-500/20 text-bio-300 px-3 py-1 rounded-full border border-bio-500/30">50 pts</span>
+          </div>
+          <div class="p-3 bg-slate-950/60 rounded-xl border border-slate-800 flex items-center justify-between text-sm">
+            <span class="text-slate-300">Tokens left on field (6 max)</span>
+            <div class="flex items-center gap-3">
+              <button type="button" onclick="adjustTokens(-1)" class="w-8 h-8 rounded-lg bg-slate-800 text-white font-bold hover:bg-slate-700">-</button>
+              <span id="precision_tokens" class="w-6 text-center font-bold text-bio-400">6</span>
+              <button type="button" onclick="adjustTokens(1)" class="w-8 h-8 rounded-lg bg-slate-800 text-white font-bold hover:bg-slate-700">+</button>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
 
-    <!-- Mission Grid Section -->
-    <form id="scoresheetForm" onchange="calculateScore()" class="space-y-6">
+    <!-- Right Col: Scoring Summary & Timer -->
+    <div class="space-y-6">
+      
+      <!-- Total Score Display Card -->
+      <div class="bg-gradient-to-b from-bio-950/80 to-slate-900 rounded-2xl p-6 border border-bio-500/30 shadow-xl text-center sticky top-20">
+        <p class="text-xs font-semibold uppercase tracking-wider text-bio-400 mb-1">Total Score</p>
+        <div id="totalScoreDisplay" class="text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-200 via-bio-400 to-teal-300 py-2">
+          50
+        </div>
+        <p class="text-xs text-slate-400 mb-5">Calculated in real-time</p>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <button type="button" onclick="submitScoreToGoogleSheets()" class="w-full py-4 bg-gradient-to-r from-bio-600 to-emerald-500 hover:from-bio-500 hover:to-emerald-400 text-slate-950 font-bold rounded-xl shadow-lg transition transform active:scale-95 flex items-center justify-center gap-2 text-base">
+          <i data-lucide="send" class="w-5 h-5"></i>
+          Submit Score
+        </button>
 
-        <!-- Mission M01: Bioluminescence Sampling -->
-        <div class="bg-bio-950/40 border border-bio-900/70 rounded-2xl p-5 glow-border transition duration-200 flex flex-col justify-between">
-          <div>
-            <div class="flex items-center justify-between border-b border-bio-900/80 pb-3 mb-4">
-              <div class="flex items-center space-x-2.5">
-                <span class="w-7 h-7 bg-bio-900 border border-bio-500/30 text-glow-cyan font-mono font-bold text-xs flex items-center justify-center rounded-lg">M01</span>
-                <h3 class="font-bold text-white tracking-tight">Bio-Sampling</h3>
-              </div>
-              <span id="m01_points" class="text-sm font-mono font-bold text-bio-400 bg-bio-950 px-2.5 py-1 rounded-md border border-bio-800">0 PTS</span>
-            </div>
-            <p class="text-xs text-slate-400 mb-4">Collect fluorescent deep-sea biological samples and secure them into bio-vaults.</p>
-
-            <div class="space-y-3">
-              <div>
-                <label class="block text-xs font-semibold text-slate-300 mb-2">Samples retrieved to research tray:</label>
-                <div class="grid grid-cols-4 gap-2">
-                  <label class="cursor-pointer">
-                    <input type="radio" name="m01_samples" value="0" checked class="sr-only">
-                    <div class="option-label text-center py-2 px-1 text-xs font-medium rounded-lg border border-slate-800 bg-slate-950/60 text-slate-400">0</div>
-                  </label>
-                  <label class="cursor-pointer">
-                    <input type="radio" name="m01_samples" value="1" class="sr-only">
-                    <div class="option-label text-center py-2 px-1 text-xs font-medium rounded-lg border border-slate-800 bg-slate-950/60 text-slate-300">+10</div>
-                  </label>
-                  <label class="cursor-pointer">
-                    <input type="radio" name="m01_samples" value="2" class="sr-only">
-                    <div class="option-label text-center py-2 px-1 text-xs font-medium rounded-lg border border-slate-800 bg-slate-950/60 text-slate-300">+20</div>
-                  </label>
-                  <label class="cursor-pointer">
-                    <input type="radio" name="m01_samples" value="3" class="sr-only">
-                    <div class="option-label text-center py-2 px-1 text-xs font-medium rounded-lg border border-slate-800 bg-slate-950/60 text-slate-300">+35</div>
-                  </label>
-                </div>
-              </div>
-
-              <div class="pt-2">
-                <label class="flex items-center space-x-3 cursor-pointer p-2.5 bg-slate-950/40 border border-slate-800/80 rounded-xl hover:border-bio-800">
-                  <input type="checkbox" id="m01_vault" class="w-4 h-4 rounded border-bio-800 text-bio-500 focus:ring-bio-400 bg-slate-900">
-                  <span class="text-xs font-medium text-slate-300">Bio-Vault Seal Latched (+15 PTS)</span>
-                </label>
-              </div>
-            </div>
+        <!-- Round Timer -->
+        <div class="mt-6 pt-6 border-t border-slate-800">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-semibold text-slate-400 flex items-center gap-1">
+              <i data-lucide="timer" class="w-4 h-4 text-bio-400"></i> Match Timer
+            </span>
+            <span id="timerDisplay" class="font-mono text-xl font-bold text-bio-300">2:30</span>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <button type="button" id="startTimerBtn" onclick="toggleTimer()" class="py-2 bg-slate-800 hover:bg-slate-700 text-xs font-semibold rounded-lg border border-slate-700 text-slate-200 transition">
+              Start
+            </button>
+            <button type="button" onclick="resetTimer()" class="py-2 bg-slate-800 hover:bg-slate-700 text-xs font-semibold rounded-lg border border-slate-700 text-slate-200 transition">
+              Reset
+            </button>
           </div>
         </div>
 
-        <!-- Mission M02: Coral & Habitat Restoration -->
-        <div class="bg-bio-950/40 border border-bio-900/70 rounded-2xl p-5 glow-border transition duration-200 flex flex-col justify-between">
-          <div>
-            <div class="flex items-center justify-between border-b border-bio-900/80 pb-3 mb-4">
-              <div class="flex items-center space-x-2.5">
-                <span class="w-7 h-7 bg-bio-900 border border-bio-500/30 text-glow-cyan font-mono font-bold text-xs flex items-center justify-center rounded-lg">M02</span>
-                <h3 class="font-bold text-white tracking-tight">Habitat Restoration</h3>
-              </div>
-              <span id="m02_points" class="text-sm font-mono font-bold text-bio-400 bg-bio-950 px-2.5 py-1 rounded-md border border-bio-800">0 PTS</span>
-            </div>
-            <p class="text-xs text-slate-400 mb-4">Rebuild delicate bioluminescent coral nursery modules in ocean floor zones.</p>
-
-            <div class="space-y-4">
-              <div>
-                <label class="block text-xs font-semibold text-slate-300 mb-2">Coral Trees Upright & Upgraded:</label>
-                <div class="grid grid-cols-3 gap-2">
-                  <label class="cursor-pointer">
-                    <input type="radio" name="m02_coral" value="0" checked class="sr-only">
-                    <div class="option-label text-center py-2 text-xs font-medium rounded-lg border border-slate-800 bg-slate-950/60 text-slate-400">None</div>
-                  </label>
-                  <label class="cursor-pointer">
-                    <input type="radio" name="m02_coral" value="1" class="sr-only">
-                    <div class="option-label text-center py-2 text-xs font-medium rounded-lg border border-slate-800 bg-slate-950/60 text-slate-300">1 (+15)</div>
-                  </label>
-                  <label class="cursor-pointer">
-                    <input type="radio" name="m02_coral" value="2" class="sr-only">
-                    <div class="option-label text-center py-2 text-xs font-medium rounded-lg border border-slate-800 bg-slate-950/60 text-slate-300">2 (+30)</div>
-                  </label>
-                </div>
-              </div>
-
-              <div>
-                <label class="flex items-center space-x-3 cursor-pointer p-2.5 bg-slate-950/40 border border-slate-800/80 rounded-xl hover:border-bio-800">
-                  <input type="checkbox" id="m02_symbiosis" class="w-4 h-4 rounded border-bio-800 text-bio-500 focus:ring-bio-400 bg-slate-900">
-                  <span class="text-xs font-medium text-slate-300">Symbiosis Ring Connected (+20 PTS)</span>
-                </label>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Mission M03: Canopy Exploration -->
-        <div class="bg-bio-950/40 border border-bio-900/70 rounded-2xl p-5 glow-border transition duration-200 flex flex-col justify-between">
-          <div>
-            <div class="flex items-center justify-between border-b border-bio-900/80 pb-3 mb-4">
-              <div class="flex items-center space-x-2.5">
-                <span class="w-7 h-7 bg-bio-900 border border-bio-500/30 text-glow-cyan font-mono font-bold text-xs flex items-center justify-center rounded-lg">M03</span>
-                <h3 class="font-bold text-white tracking-tight">Canopy Exploration</h3>
-              </div>
-              <span id="m03_points" class="text-sm font-mono font-bold text-bio-400 bg-bio-950 px-2.5 py-1 rounded-md border border-bio-800">0 PTS</span>
-            </div>
-            <p class="text-xs text-slate-400 mb-4">Elevate research drones into high-altitude rainforest canopy zones.</p>
-
-            <div class="space-y-4">
-              <div>
-                <label class="block text-xs font-semibold text-slate-300 mb-2">Drone Elevation Height achieved:</label>
-                <div class="grid grid-cols-3 gap-2">
-                  <label class="cursor-pointer">
-                    <input type="radio" name="m03_drone" value="0" checked class="sr-only">
-                    <div class="option-label text-center py-2 text-xs font-medium rounded-lg border border-slate-800 bg-slate-950/60 text-slate-400">Ground</div>
-                  </label>
-                  <label class="cursor-pointer">
-                    <input type="radio" name="m03_drone" value="1" class="sr-only">
-                    <div class="option-label text-center py-2 text-xs font-medium rounded-lg border border-slate-800 bg-slate-950/60 text-slate-300">Mid (+10)</div>
-                  </label>
-                  <label class="cursor-pointer">
-                    <input type="radio" name="m03_drone" value="2" class="sr-only">
-                    <div class="option-label text-center py-2 text-xs font-medium rounded-lg border border-slate-800 bg-slate-950/60 text-slate-300">Top (+25)</div>
-                  </label>
-                </div>
-              </div>
-
-              <div>
-                <label class="flex items-center space-x-3 cursor-pointer p-2.5 bg-slate-950/40 border border-slate-800/80 rounded-xl hover:border-bio-800">
-                  <input type="checkbox" id="m03_seedling" class="w-4 h-4 rounded border-bio-800 text-bio-500 focus:ring-bio-400 bg-slate-900">
-                  <span class="text-xs font-medium text-slate-300">Bio-luminescent Seed Dropped (+15 PTS)</span>
-                </label>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Mission M04: Hydrothermal Vents -->
-        <div class="bg-bio-950/40 border border-bio-900/70 rounded-2xl p-5 glow-border transition duration-200 flex flex-col justify-between">
-          <div>
-            <div class="flex items-center justify-between border-b border-bio-900/80 pb-3 mb-4">
-              <div class="flex items-center space-x-2.5">
-                <span class="w-7 h-7 bg-bio-900 border border-bio-500/30 text-glow-cyan font-mono font-bold text-xs flex items-center justify-center rounded-lg">M04</span>
-                <h3 class="font-bold text-white tracking-tight">Hydrothermal Vents</h3>
-              </div>
-              <span id="m04_points" class="text-sm font-mono font-bold text-bio-400 bg-bio-950 px-2.5 py-1 rounded-md border border-bio-800">0 PTS</span>
-            </div>
-            <p class="text-xs text-slate-400 mb-4">Deploy thermal probes and clear obstruction caps from active deep vents.</p>
-
-            <div class="space-y-4">
-              <div>
-                <label class="block text-xs font-semibold text-slate-300 mb-2">Probes Deployed into Vents:</label>
-                <div class="flex items-center justify-between bg-slate-950/60 border border-slate-800 rounded-xl p-2">
-                  <button type="button" onclick="adjustCounter('m04_counter', -1)" class="w-8 h-8 flex items-center justify-center bg-slate-900 hover:bg-slate-800 rounded-lg text-white font-bold border border-slate-700">-</button>
-                  <span id="m04_counter_val" class="font-mono text-base font-bold text-glow-cyan">0</span>
-                  <button type="button" onclick="adjustCounter('m04_counter', 1)" class="w-8 h-8 flex items-center justify-center bg-slate-900 hover:bg-slate-800 rounded-lg text-white font-bold border border-slate-700">+</button>
-                </div>
-                <span class="text-[10px] text-slate-500 mt-1 block text-right">Maximum 3 probes (10 PTS each)</span>
-              </div>
-
-              <div>
-                <label class="flex items-center space-x-3 cursor-pointer p-2.5 bg-slate-950/40 border border-slate-800/80 rounded-xl hover:border-bio-800">
-                  <input type="checkbox" id="m04_cap" class="w-4 h-4 rounded border-bio-800 text-bio-500 focus:ring-bio-400 bg-slate-900">
-                  <span class="text-xs font-medium text-slate-300">Vent Cap Safely Removed (+10 PTS)</span>
-                </label>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Mission M05: Species Monitoring -->
-        <div class="bg-bio-950/40 border border-bio-900/70 rounded-2xl p-5 glow-border transition duration-200 flex flex-col justify-between">
-          <div>
-            <div class="flex items-center justify-between border-b border-bio-900/80 pb-3 mb-4">
-              <div class="flex items-center space-x-2.5">
-                <span class="w-7 h-7 bg-bio-900 border border-bio-500/30 text-glow-cyan font-mono font-bold text-xs flex items-center justify-center rounded-lg">M05</span>
-                <h3 class="font-bold text-white tracking-tight">Species Monitoring</h3>
-              </div>
-              <span id="m05_points" class="text-sm font-mono font-bold text-bio-400 bg-bio-950 px-2.5 py-1 rounded-md border border-bio-800">0 PTS</span>
-            </div>
-            <p class="text-xs text-slate-400 mb-4">Position field transmitters near endangered bioluminescent flora.</p>
-
-            <div class="space-y-4">
-              <div>
-                <label class="block text-xs font-semibold text-slate-300 mb-2">Transmitters Aligned:</label>
-                <div class="grid grid-cols-3 gap-2">
-                  <label class="cursor-pointer">
-                    <input type="radio" name="m05_trans" value="0" checked class="sr-only">
-                    <div class="option-label text-center py-2 text-xs font-medium rounded-lg border border-slate-800 bg-slate-950/60 text-slate-400">0</div>
-                  </label>
-                  <label class="cursor-pointer">
-                    <input type="radio" name="m05_trans" value="1" class="sr-only">
-                    <div class="option-label text-center py-2 text-xs font-medium rounded-lg border border-slate-800 bg-slate-950/60 text-slate-300">1 (+10)</div>
-                  </label>
-                  <label class="cursor-pointer">
-                    <input type="radio" name="m05_trans" value="2" class="sr-only">
-                    <div class="option-label text-center py-2 text-xs font-medium rounded-lg border border-slate-800 bg-slate-950/60 text-slate-300">2 (+25)</div>
-                  </label>
-                </div>
-              </div>
-
-              <div>
-                <label class="flex items-center space-x-3 cursor-pointer p-2.5 bg-slate-950/40 border border-slate-800/80 rounded-xl hover:border-bio-800">
-                  <input type="checkbox" id="m05_camera" class="w-4 h-4 rounded border-bio-800 text-bio-500 focus:ring-bio-400 bg-slate-900">
-                  <span class="text-xs font-medium text-slate-300">Cam Trap Triggered (+15 PTS)</span>
-                </label>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Precision Tokens & Deductions -->
-        <div class="bg-bio-950/40 border border-bio-900/70 rounded-2xl p-5 glow-border transition duration-200 flex flex-col justify-between">
-          <div>
-            <div class="flex items-center justify-between border-b border-bio-900/80 pb-3 mb-4">
-              <div class="flex items-center space-x-2.5">
-                <span class="w-7 h-7 bg-bio-900 border border-bio-500/30 text-glow-cyan font-mono font-bold text-xs flex items-center justify-center rounded-lg">M06</span>
-                <h3 class="font-bold text-white tracking-tight">Precision Tokens</h3>
-              </div>
-              <span id="m06_points" class="text-sm font-mono font-bold text-bio-400 bg-bio-950 px-2.5 py-1 rounded-md border border-bio-800">50 PTS</span>
-            </div>
-            <p class="text-xs text-slate-400 mb-4">Tokens remaining on the mat field boundary at the end of the match.</p>
-
-            <div class="space-y-4">
-              <div>
-                <label class="block text-xs font-semibold text-slate-300 mb-2">Remaining Precision Tokens:</label>
-                <div class="grid grid-cols-7 gap-1">
-                  <label class="cursor-pointer"><input type="radio" name="precision" value="0" class="sr-only"><div class="option-label text-center py-2 text-xs font-medium rounded-md border border-slate-800 bg-slate-950/60 text-slate-400">0</div></label>
-                  <label class="cursor-pointer"><input type="radio" name="precision" value="10" class="sr-only"><div class="option-label text-center py-2 text-xs font-medium rounded-md border border-slate-800 bg-slate-950/60 text-slate-300">1</div></label>
-                  <label class="cursor-pointer"><input type="radio" name="precision" value="20" class="sr-only"><div class="option-label text-center py-2 text-xs font-medium rounded-md border border-slate-800 bg-slate-950/60 text-slate-300">2</div></label>
-                  <label class="cursor-pointer"><input type="radio" name="precision" value="30" class="sr-only"><div class="option-label text-center py-2 text-xs font-medium rounded-md border border-slate-800 bg-slate-950/60 text-slate-300">3</div></label>
-                  <label class="cursor-pointer"><input type="radio" name="precision" value="40" class="sr-only"><div class="option-label text-center py-2 text-xs font-medium rounded-md border border-slate-800 bg-slate-950/60 text-slate-300">4</div></label>
-                  <label class="cursor-pointer"><input type="radio" name="precision" value="50" checked class="sr-only"><div class="option-label text-center py-2 text-xs font-medium rounded-md border border-slate-800 bg-slate-950/60 text-slate-300">5</div></label>
-                  <label class="cursor-pointer"><input type="radio" name="precision" value="60" class="sr-only"><div class="option-label text-center py-2 text-xs font-medium rounded-md border border-slate-800 bg-slate-950/60 text-slate-300">6</div></label>
-                </div>
-                <span class="text-[10px] text-slate-500 mt-1.5 block">6 = 60 PTS | 5 = 50 PTS | 4 = 40 PTS | 3 = 30 PTS | 2 = 20 PTS | 1 = 10 PTS</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
+        <button type="button" onclick="resetForm()" class="mt-4 w-full py-2 bg-slate-800/80 hover:bg-slate-700 text-xs text-slate-300 rounded-lg border border-slate-700">
+          Reset All Fields
+        </button>
       </div>
 
-      <!-- Bottom Control Toolbar -->
-      <div class="bg-bio-950/80 border border-bio-800 rounded-2xl p-4 sm:p-6 backdrop-blur-md flex flex-col md:flex-row items-center justify-between gap-4 shadow-xl">
-        <div class="flex items-center space-x-4 w-full md:w-auto justify-between md:justify-start">
-          <button type="button" onclick="resetScoresheet()" class="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 border border-slate-700 hover:border-slate-500 text-slate-300 rounded-xl text-sm font-semibold transition duration-150 flex items-center gap-2">
-            <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
-            <span>Reset Sheet</span>
-          </button>
-          
-          <div class="text-right md:hidden">
-            <span class="text-[10px] uppercase tracking-wider text-slate-400">Score</span>
-            <div id="mobileTotalScore" class="text-2xl font-black font-mono text-glow-cyan">0 PTS</div>
-          </div>
-        </div>
-
-        <div class="flex items-center space-x-3 w-full md:w-auto">
-          <button type="button" onclick="downloadCSV()" class="flex-1 md:flex-initial px-4 py-2.5 bg-bio-950 hover:bg-bio-900 border border-bio-700 text-bio-300 rounded-xl text-sm font-semibold transition duration-150 flex items-center justify-center gap-2">
-            <i data-lucide="download" class="w-4 h-4"></i>
-            <span>Export CSV</span>
-          </button>
-          
-          <button type="submit" id="btnSubmitScore" class="flex-1 md:flex-initial px-6 py-2.5 bg-bio-500 hover:bg-bio-400 text-slate-950 rounded-xl text-sm font-extrabold transition duration-150 flex items-center justify-center gap-2 shadow-lg shadow-bio-500/20">
-            <i data-lucide="send" class="w-4 h-4"></i>
-            <span>Submit to Sheets</span>
-          </button>
-        </div>
-      </div>
-    </form>
-
-    <!-- Submission History Table -->
-    <div class="bg-bio-950/40 border border-bio-900/60 rounded-2xl p-5 shadow-lg space-y-4">
-      <div class="flex items-center justify-between">
-        <h3 class="text-sm font-bold uppercase tracking-wider text-bio-400 flex items-center gap-2">
-          <i data-lucide="history" class="w-4 h-4"></i> Recent Match Submissions
-        </h3>
-        <button onclick="clearHistory()" class="text-xs text-slate-500 hover:text-rose-400 transition">Clear Log</button>
-      </div>
-
-      <div class="overflow-x-auto">
-        <table class="w-full text-left text-xs font-mono">
-          <thead>
-            <tr class="border-b border-bio-900/80 text-slate-400">
-              <th class="pb-2">Time</th>
-              <th class="pb-2">Team</th>
-              <th class="pb-2 text-right">Score</th>
-              <th class="pb-2 text-center">Status</th>
-            </tr>
-          </thead>
-          <tbody id="historyTableBody" class="divide-y divide-bio-950 text-slate-300">
-            <tr id="emptyHistoryRow">
-              <td colspan="4" class="py-4 text-center text-slate-500 font-sans italic">No local submissions logged yet.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
     </div>
-
   </main>
 
-  <!-- Settings / Google Apps Script Modal -->
-  <div id="settingsModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
-    <div class="bg-bio-950 border border-bio-800 rounded-2xl max-w-lg w-full p-6 space-y-5 shadow-2xl relative">
-      <button onclick="toggleSettingsModal(false)" class="absolute top-4 right-4 text-slate-400 hover:text-white">
-        <i data-lucide="x" class="w-5 h-5"></i>
-      </button>
-
-      <div class="flex items-center space-x-3">
-        <div class="p-2.5 bg-bio-900/60 rounded-xl text-glow-cyan border border-bio-700">
-          <i data-lucide="file-spreadsheet" class="w-6 h-6"></i>
-        </div>
-        <div>
-          <h3 class="font-bold text-white text-lg">Google Sheets Integration</h3>
-          <p class="text-xs text-slate-400">Connect your scoresheet to a Google Apps Script Web App.</p>
-        </div>
+  <!-- Google Settings Modal -->
+  <div id="settingsModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 max-w-md w-full shadow-2xl space-y-4">
+      <div class="flex justify-between items-center">
+        <h3 class="font-bold text-lg text-bio-400 flex items-center gap-2">
+          <i data-lucide="sheet" class="w-5 h-5"></i>
+          Google Sheets Web App URL
+        </h3>
+        <button onclick="closeModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
-
-      <div class="space-y-3 text-xs text-slate-300">
-        <p>To save scores directly to a Google Sheet:</p>
-        <ol class="list-decimal list-inside space-y-1 text-slate-400">
-          <li>Create a Google Sheet and go to <b class="text-white">Extensions &gt; Apps Script</b>.</li>
-          <li>Paste the provided <code class="text-bio-400">doPost(e)</code> script into <code class="text-bio-400">Code.gs</code>.</li>
-          <li>Deploy as a <b class="text-white">Web App</b> set to <i class="text-white">"Anyone"</i> access.</li>
-          <li>Paste the generated Deployment Web App URL below:</li>
-        </ol>
-      </div>
-
-      <div>
-        <label for="scriptUrlInput" class="block text-xs font-semibold uppercase text-bio-400 mb-1.5">Google Web App URL</label>
-        <input type="url" id="scriptUrlInput" placeholder="https://script.google.com/macros/s/.../exec" class="w-full bg-slate-950 border border-bio-800 focus:border-bio-400 text-white rounded-lg px-3 py-2 text-xs font-mono outline-none">
-      </div>
-
-      <div class="flex items-center justify-end space-x-3 pt-2">
-        <button onclick="toggleSettingsModal(false)" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded-lg text-xs font-semibold">Cancel</button>
-        <button onclick="saveSettings()" class="px-4 py-2 bg-bio-500 hover:bg-bio-400 text-slate-950 rounded-lg text-xs font-bold">Save Configuration</button>
+      <p class="text-xs text-slate-400">
+        Paste your deployed Apps Script URL below to send submitted scores to your Google Sheet.
+      </p>
+      <input type="text" id="scriptUrlInput" placeholder="https://script.google.com/macros/s/.../exec" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-xs text-white focus:ring-2 focus:ring-bio-500 focus:outline-none" />
+      <div class="flex justify-end gap-2 pt-2">
+        <button onclick="closeModal()" class="px-4 py-2 bg-slate-800 text-slate-300 rounded-lg text-xs font-semibold">Cancel</button>
+        <button onclick="saveSettings()" class="px-4 py-2 bg-bio-500 text-slate-950 font-bold rounded-lg text-xs">Save</button>
       </div>
     </div>
-  </div>
-
-  <!-- Toast Notification Bar -->
-  <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-bio-900 border border-bio-500 text-white px-4 py-3 rounded-xl shadow-2xl flex items-center space-x-3 text-sm font-medium">
-    <i data-lucide="check-circle" id="toastIcon" class="w-5 h-5 text-glow-cyan"></i>
-    <span id="toastMessage">Score saved successfully!</span>
   </div>
 
   <script>
-    // App State Variables
-    let currentTotalScore = 0;
-    let m04Counter = 0;
+    lucide.createIcons();
+
     let timerInterval = null;
-    let timerSeconds = 150; // 2 minutes 30 seconds
-    let isTimerRunning = false;
+    let timerSeconds = 150;
+    let precisionTokens = 6;
 
-    // Initialize Lucide Icons & Page State
     document.addEventListener("DOMContentLoaded", () => {
-      lucide.createIcons();
-      loadSettings();
+      const savedUrl = localStorage.getItem("fll_google_app_url") || "";
+      document.getElementById("scriptUrlInput").value = savedUrl;
       calculateScore();
-      renderHistory();
-
-      // Form submission handler
-      document.getElementById("scoresheetForm").addEventListener("submit", handleFormSubmit);
     });
 
-    // Score Calculation Engine
     function calculateScore() {
-      // Mission 1
-      const m01_samples = parseInt(document.querySelector('input[name="m01_samples"]:checked')?.value || 0);
-      const m01_vault = document.getElementById("m01_vault").checked ? 15 : 0;
-      const m01_total = m01_samples + m01_vault;
-      document.getElementById("m01_points").innerText = `${m01_total} PTS`;
+      let total = 0;
 
-      // Mission 2
-      const m02_coral = parseInt(document.querySelector('input[name="m02_coral"]:checked')?.value || 0);
-      const m02_symbiosis = document.getElementById("m02_symbiosis").checked ? 20 : 0;
-      const m02_total = (m02_coral * 15) + m02_symbiosis;
-      document.getElementById("m02_points").innerText = `${m02_total} PTS`;
+      // Inspection
+      if (document.getElementById("inspectionBonus").checked) total += 20;
 
-      // Mission 3
-      const m03_drone = parseInt(document.querySelector('input[name="m03_drone"]:checked')?.value || 0);
-      const m03_drone_pts = m03_drone === 1 ? 10 : (m03_drone === 2 ? 25 : 0);
-      const m03_seedling = document.getElementById("m03_seedling").checked ? 15 : 0;
-      const m03_total = m03_drone_pts + m03_seedling;
-      document.getElementById("m03_points").innerText = `${m03_total} PTS`;
+      // M01
+      let m01 = 0;
+      if (document.getElementById("m01_cb1").checked) m01 += 20;
+      if (document.getElementById("m01_cb2").checked) m01 += 10;
+      document.getElementById("score_m01").innerText = m01 + " pts";
+      total += m01;
 
-      // Mission 4
-      const m04_cap = document.getElementById("m04_cap").checked ? 10 : 0;
-      const m04_total = (m04Counter * 10) + m04_cap;
-      document.getElementById("m04_points").innerText = `${m04_total} PTS`;
+      // M02
+      let m02_qty = parseInt(document.getElementById("m02_qty").innerText) || 0;
+      let m02 = m02_qty * 10;
+      document.getElementById("score_m02").innerText = m02 + " pts";
+      total += m02;
 
-      // Mission 5
-      const m05_trans = parseInt(document.querySelector('input[name="m05_trans"]:checked')?.value || 0);
-      const m05_trans_pts = m05_trans === 1 ? 10 : (m05_trans === 2 ? 25 : 0);
-      const m05_camera = document.getElementById("m05_camera").checked ? 15 : 0;
-      const m05_total = m05_trans_pts + m05_camera;
-      document.getElementById("m05_points").innerText = `${m05_total} PTS`;
+      // M03
+      let m03 = 0;
+      if (document.getElementById("m03_cb1").checked) m03 += 20;
+      if (document.getElementById("m03_cb2").checked) m03 += 10;
+      document.getElementById("score_m03").innerText = m03 + " pts";
+      total += m03;
 
-      // Mission 6: Precision Tokens
-      const precisionVal = parseInt(document.querySelector('input[name="precision"]:checked')?.value || 50);
-      document.getElementById("m06_points").innerText = `${precisionVal} PTS`;
-
-      // Final Total Score Sum
-      currentTotalScore = m01_total + m02_total + m03_total + m04_total + m05_total + precisionVal;
-      
-      // Update UI displays
-      document.getElementById("headerTotalScore").innerText = currentTotalScore;
-      document.getElementById("mobileTotalScore").innerText = `${currentTotalScore} PTS`;
-    }
-
-    // Counter Adjustment Utility
-    function adjustCounter(counterId, delta) {
-      if (counterId === 'm04_counter') {
-        m04Counter = Math.max(0, Math.min(3, m04Counter + delta));
-        document.getElementById("m04_counter_val").innerText = m04Counter;
+      // M04
+      let m04 = 0;
+      let katydidSafe = document.getElementById("m04_katydid").checked;
+      let m04_qty = parseInt(document.getElementById("m04_qty").innerText) || 0;
+      if (katydidSafe) {
+        if (m04_qty === 1) m04 = 10;
+        if (m04_qty === 2) m04 = 30;
       }
+      document.getElementById("score_m04").innerText = m04 + " pts";
+      total += m04;
+
+      // M05
+      let m05 = parseInt(document.getElementById("m05_select").value) || 0;
+      document.getElementById("score_m05").innerText = m05 + " pts";
+      total += m05;
+
+      // M09
+      let m09 = 0;
+      if (document.getElementById("m09_cb1").checked) m09 += 10;
+      if (document.getElementById("m09_cb2").checked) m09 += 10;
+      if (document.getElementById("m09_cb3").checked) m09 += 10;
+      document.getElementById("score_m09").innerText = m09 + " pts";
+      total += m09;
+
+      // M13
+      let m13 = document.getElementById("m13_cb1").checked ? 30 : 0;
+      document.getElementById("score_m13").innerText = m13 + " pts";
+      total += m13;
+
+      // M14
+      let m14_qty = parseInt(document.getElementById("m14_qty").innerText) || 0;
+      let m14 = m14_qty * 5;
+      document.getElementById("score_m14").innerText = m14 + " pts";
+      total += m14;
+
+      // Precision Tokens
+      const tokenScores = [0, 10, 20, 30, 35, 40, 50];
+      let pScore = tokenScores[precisionTokens] || 0;
+      document.getElementById("score_precision").innerText = pScore + " pts";
+      total += pScore;
+
+      document.getElementById("totalScoreDisplay").innerText = total;
+      return total;
+    }
+
+    function adjustQty(elementId, change, max) {
+      let el = document.getElementById(elementId);
+      let val = Math.max(0, Math.min(max, (parseInt(el.innerText) || 0) + change));
+      el.innerText = val;
       calculateScore();
     }
 
-    // Reset Scoresheet Form
-    function resetScoresheet() {
-      document.getElementById("scoresheetForm").reset();
-      m04Counter = 0;
-      document.getElementById("m04_counter_val").innerText = "0";
+    function adjustTokens(change) {
+      precisionTokens = Math.max(0, Math.min(6, precisionTokens + change));
+      document.getElementById("precision_tokens").innerText = precisionTokens;
       calculateScore();
-      showToast("Scoresheet reset to default.", "info");
     }
 
-    // Match Timer Controls
+    function resetForm() {
+      document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+      document.getElementById("m04_katydid").checked = true;
+      document.getElementById("m02_qty").innerText = "0";
+      document.getElementById("m04_qty").innerText = "0";
+      document.getElementById("m14_qty").innerText = "0";
+      document.getElementById("m05_select").value = "0";
+      precisionTokens = 6;
+      document.getElementById("precision_tokens").innerText = "6";
+      calculateScore();
+    }
+
     function toggleTimer() {
-      if (isTimerRunning) {
-        pauseTimer();
+      const btn = document.getElementById("startTimerBtn");
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+        btn.innerText = "Start";
+        btn.classList.remove("bg-red-600");
       } else {
-        startTimer();
+        btn.innerText = "Pause";
+        btn.classList.add("bg-red-600");
+        timerInterval = setInterval(() => {
+          if (timerSeconds > 0) {
+            timerSeconds--;
+            updateTimerDisplay();
+          } else {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            btn.innerText = "Start";
+            alert("Match Finished!");
+          }
+        }, 1000);
       }
-    }
-
-    function startTimer() {
-      isTimerRunning = true;
-      document.getElementById("timerStatus").innerText = "RUNNING";
-      document.getElementById("timerStatus").className = "text-xs font-mono font-semibold px-2 py-0.5 rounded bg-emerald-950 text-glow-green border border-emerald-700";
-      document.getElementById("iconTimerPlay").setAttribute("data-lucide", "pause");
-      lucide.createIcons();
-
-      timerInterval = setInterval(() => {
-        if (timerSeconds > 0) {
-          timerSeconds--;
-          updateTimerDisplay();
-        } else {
-          pauseTimer();
-          showToast("Match Time Expired!", "warning");
-        }
-      }, 1000);
-    }
-
-    function pauseTimer() {
-      isTimerRunning = false;
-      clearInterval(timerInterval);
-      document.getElementById("timerStatus").innerText = "PAUSED";
-      document.getElementById("timerStatus").className = "text-xs font-mono font-semibold px-2 py-0.5 rounded bg-amber-950 text-amber-400 border border-amber-800";
-      document.getElementById("iconTimerPlay").setAttribute("data-lucide", "play");
-      lucide.createIcons();
     }
 
     function resetTimer() {
-      pauseTimer();
+      if (timerInterval) clearInterval(timerInterval);
+      timerInterval = null;
       timerSeconds = 150;
-      document.getElementById("timerStatus").innerText = "READY";
-      document.getElementById("timerStatus").className = "text-xs font-mono font-semibold px-2 py-0.5 rounded bg-slate-900 text-slate-400 border border-slate-800";
+      document.getElementById("startTimerBtn").innerText = "Start";
+      document.getElementById("startTimerBtn").classList.remove("bg-red-600");
       updateTimerDisplay();
     }
 
     function updateTimerDisplay() {
-      const minutes = Math.floor(timerSeconds / 60);
-      const seconds = timerSeconds % 60;
-      document.getElementById("timerDisplay").innerText = 
-        `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+      const mins = Math.floor(timerSeconds / 60);
+      const secs = timerSeconds % 60;
+      document.getElementById("timerDisplay").innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
     }
 
-    // Form Submission & Google Apps Script Integration
-    async function handleFormSubmit(e) {
-      e.preventDefault();
+    async function submitScoreToGoogleSheets() {
+      const url = localStorage.getItem("fll_google_app_url");
+      if (!url) {
+        alert("Please set up your Google Apps Script Web App URL in settings!");
+        openModal();
+        return;
+      }
 
-      const teamName = document.getElementById("teamName").value || "Biobots";
-      const scriptUrl = localStorage.getItem("fll_bioglow_script_url") || "";
+      const teamName = document.getElementById("teamSelect").value;
+      const totalScore = calculateScore();
 
-      const submissionData = {
+      const payload = {
         timestamp: new Date().toISOString(),
-        teamName,
-        totalScore: currentTotalScore,
+        teamName: teamName,
+        totalScore: totalScore,
         breakdown: {
-          m01: document.getElementById("m01_points").innerText,
-          m02: document.getElementById("m02_points").innerText,
-          m03: document.getElementById("m03_points").innerText,
-          m04: document.getElementById("m04_points").innerText,
-          m05: document.getElementById("m05_points").innerText,
-          precision: document.getElementById("m06_points").innerText,
+          "M01 Drone Survey": document.getElementById("score_m01").innerText,
+          "M02 Exploding Seeds": document.getElementById("score_m02").innerText,
+          "M03 Flip Rock": document.getElementById("score_m03").innerText,
+          "M04 Lucky Leaves": document.getElementById("score_m04").innerText,
+          "M05 Reaching Roots": document.getElementById("score_m05").innerText,
+          "M09 Research Platform": document.getElementById("score_m09").innerText,
+          "M13 Keystone Species": document.getElementById("score_m13").innerText,
+          "M14 Replantation": document.getElementById("score_m14").innerText,
+          "Precision Tokens": document.getElementById("score_precision").innerText
         }
       };
 
-      let status = "Local Only";
+      try {
+        await fetch(url, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
 
-      if (scriptUrl) {
-        const btn = document.getElementById("btnSubmitScore");
-        btn.disabled = true;
-        btn.innerText = "Submitting...";
-
-        try {
-          await fetch(scriptUrl, {
-            method: "POST",
-            mode: "no-cors",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(submissionData)
-          });
-          status = "Synced Sheet";
-          showToast("Score successfully posted to Google Sheet!", "success");
-        } catch (err) {
-          console.error("Post error:", err);
-          status = "Sync Failed";
-          showToast("Failed to connect to Google Sheets. Saved locally.", "error");
-        } finally {
-          btn.disabled = false;
-          btn.innerHTML = `<i data-lucide="send" class="w-4 h-4"></i><span>Submit to Sheets</span>`;
-          lucide.createIcons();
-        }
-      } else {
-        showToast("Score saved locally. Configure Web App URL to sync.", "info");
+        alert(`Score submitted successfully for Team ${teamName}!`);
+      } catch (err) {
+        console.error("Error submitting score:", err);
+        alert("Failed to send score to Google Sheets.");
       }
-
-      saveToHistory({ ...submissionData, status });
     }
 
-    // Modal & Local Storage Settings management
-    function toggleSettingsModal(show) {
-      const modal = document.getElementById("settingsModal");
-      if (show) modal.classList.remove("hidden");
-      else modal.classList.add("hidden");
-    }
+    const modal = document.getElementById("settingsModal");
+    document.getElementById("openSettingsBtn").addEventListener("click", openModal);
 
+    function openModal() { modal.classList.remove("hidden"); modal.classList.add("flex"); }
+    function closeModal() { modal.classList.add("hidden"); modal.classList.remove("flex"); }
     function saveSettings() {
-      const url = document.getElementById("scriptUrlInput").value.trim();
-      localStorage.setItem("fll_bioglow_script_url", url);
-      toggleSettingsModal(false);
-      showToast(url ? "Google Sheets URL saved!" : "Sheets URL cleared.", "success");
-    }
-
-    function loadSettings() {
-      const url = localStorage.getItem("fll_bioglow_script_url") || "";
-      document.getElementById("scriptUrlInput").value = url;
-    }
-
-    // Local Submission History Logging
-    function saveToHistory(item) {
-      const history = JSON.parse(localStorage.getItem("fll_bioglow_history") || "[]");
-      history.unshift(item);
-      localStorage.setItem("fll_bioglow_history", JSON.stringify(history.slice(0, 20)));
-      renderHistory();
-    }
-
-    function renderHistory() {
-      const history = JSON.parse(localStorage.getItem("fll_bioglow_history") || "[]");
-      const tbody = document.getElementById("historyTableBody");
-
-      if (history.length === 0) {
-        tbody.innerHTML = `<tr id="emptyHistoryRow"><td colspan="4" class="py-4 text-center text-slate-500 font-sans italic">No local submissions logged yet.</td></tr>`;
-        return;
-      }
-
-      tbody.innerHTML = history.map(row => `
-        <tr class="hover:bg-bio-900/30 transition">
-          <td class="py-2.5 text-slate-400">${new Date(row.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</td>
-          <td class="py-2.5 font-bold text-white">${escapeHtml(row.teamName)}</td>
-          <td class="py-2.5 text-right font-bold text-glow-cyan">${row.totalScore} PTS</td>
-          <td class="py-2.5 text-center">
-            <span class="px-2 py-0.5 text-[10px] rounded ${row.status === 'Synced Sheet' ? 'bg-emerald-950 text-emerald-400 border border-emerald-800' : 'bg-slate-900 text-slate-400 border border-slate-800'}">${row.status}</span>
-          </td>
-        </tr>
-      `).join('');
-    }
-
-    function clearHistory() {
-      localStorage.removeItem("fll_bioglow_history");
-      renderHistory();
-      showToast("History log cleared.", "info");
-    }
-
-    // Export History to CSV file
-    function downloadCSV() {
-      const history = JSON.parse(localStorage.getItem("fll_bioglow_history") || "[]");
-      if (history.length === 0) {
-        showToast("No submission data available to export.", "warning");
-        return;
-      }
-
-      let csv = "Timestamp,Team Name,Total Score,Status\n";
-      history.forEach(r => {
-        csv += `"${r.timestamp}","${r.teamName}",${r.totalScore},"${r.status}"\n`;
-      });
-
-      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.setAttribute("href", url);
-      link.setAttribute("download", `FLL_BioGlow_Scores_${new Date().toISOString().slice(0,10)}.csv`);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-
-    // Helper Toast Alerts
-    function showToast(message, type = "success") {
-      const toast = document.getElementById("toast");
-      const toastMsg = document.getElementById("toastMessage");
-      toastMsg.innerText = message;
-      
-      toast.classList.remove("translate-y-20", "opacity-0");
-      setTimeout(() => {
-        toast.classList.add("translate-y-20", "opacity-0");
-      }, 3500);
-    }
-
-    function escapeHtml(str) {
-      return str.replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[m]);
+      const val = document.getElementById("scriptUrlInput").value.trim();
+      localStorage.setItem("fll_google_app_url", val);
+      closeModal();
+      alert("Settings saved!");
     }
   </script>
 </body>
