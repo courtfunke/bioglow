@@ -3,6 +3,640 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FLL BIOGLOW Founders Edition Full Scorer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            bio: {
+              50: '#f0fdf4',
+              100: '#dcfce7',
+              400: '#4ade80',
+              500: '#22c55e',
+              600: '#16a34a',
+              800: '#166534',
+              900: '#14532d',
+              950: '#052e16',
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans">
+
+  <header class="border-b border-bio-800/40 bg-slate-900/90 backdrop-blur sticky top-0 z-40">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="p-2 bg-bio-500/10 rounded-xl border border-bio-500/30 text-bio-400">
+          <i data-lucide="leaf" class="w-6 h-6"></i>
+        </div>
+        <div>
+          <h1 class="text-xl font-bold bg-gradient-to-r from-bio-400 to-emerald-200 bg-clip-text text-transparent">
+            BIOGLOW Founders Edition
+          </h1>
+          <p class="text-xs text-slate-400">Full 15-Mission Calculator</p>
+        </div>
+      </div>
+
+      <button id="openSettingsBtn" class="px-3 py-2 text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg border border-slate-700 transition flex items-center gap-2">
+        <i data-lucide="settings" class="w-4 h-4"></i>
+        Google Sheets Sync
+      </button>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 py-6 grid grid-cols-1 lg:grid-cols-3 gap-6 flex-1 w-full">
+    
+    <!-- Left 2 Cols: Missions -->
+    <div class="lg:col-span-2 space-y-4">
+      
+      <!-- Team Selector -->
+      <div class="bg-slate-900/90 rounded-2xl p-4 border border-slate-800 shadow-lg">
+        <label for="teamSelect" class="block text-xs font-semibold text-bio-400 mb-2 flex items-center gap-2">
+          <i data-lucide="users" class="w-4 h-4"></i> Team Name
+        </label>
+        <select id="teamSelect" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2 text-white font-medium">
+          <option value="Biobots">Biobots</option>
+          <option value="Codebreakers">Codebreakers</option>
+          <option value="Roz">Roz</option>
+        </select>
+      </div>
+
+      <!-- Equipment Inspection Bonus -->
+      <div class="bg-slate-900/90 rounded-2xl p-4 border border-slate-800 flex items-center justify-between">
+        <div>
+          <h3 class="font-bold text-slate-200 text-sm">Equipment Inspection Bonus (+20 pts)</h3>
+          <p class="text-xs text-slate-400">All equipment fits completely in one launch area</p>
+        </div>
+        <input type="checkbox" id="inspectionBonus" class="w-5 h-5 accent-bio-500 rounded cursor-pointer" onchange="calculateScore()">
+      </div>
+
+      <!-- Missions List M01 - M15 -->
+      <div class="space-y-3">
+
+        <!-- M01 -->
+        <div class="bg-slate-900/90 rounded-2xl p-4 border border-slate-800 shadow-md">
+          <div class="flex justify-between items-center mb-2">
+            <h3 class="font-bold text-sm text-bio-400">M01 - Drone Survey</h3>
+            <span id="score_m01" class="text-xs font-bold bg-bio-500/20 text-bio-300 px-3 py-1 rounded-full border border-bio-500/30">0 pts</span>
+          </div>
+          <div class="space-y-2 text-xs">
+            <label class="flex items-center justify-between p-2 bg-slate-950/60 rounded-lg border border-slate-800 cursor-pointer">
+              <span>Drone completely off the mat (+20)</span>
+              <input type="checkbox" id="m01_cb1" class="w-4 h-4 accent-bio-500" onchange="calculateScore()">
+            </label>
+            <label class="flex items-center justify-between p-2 bg-slate-950/60 rounded-lg border border-slate-800 cursor-pointer">
+              <span>LiDAR map flipped (+10)</span>
+              <input type="checkbox" id="m01_cb2" class="w-4 h-4 accent-bio-500" onchange="calculateScore()">
+            </label>
+          </div>
+        </div>
+
+        <!-- M02 -->
+        <div class="bg-slate-900/90 rounded-2xl p-4 border border-slate-800 shadow-md">
+          <div class="flex justify-between items-center mb-2">
+            <h3 class="font-bold text-sm text-bio-400">M02 - Exploding Seeds</h3>
+            <span id="score_m02" class="text-xs font-bold bg-bio-500/20 text-bio-300 px-3 py-1 rounded-full border border-bio-500/30">0 pts</span>
+          </div>
+          <div class="p-2 bg-slate-950/60 rounded-lg border border-slate-800 flex items-center justify-between text-xs">
+            <span>Seeds detached from stalk (10 pts each, max 3)</span>
+            <div class="flex items-center gap-2">
+              <button type="button" onclick="adjustQty('m02_qty', -1, 3)" class="w-7 h-7 rounded bg-slate-800 text-white font-bold">-</button>
+              <span id="m02_qty" class="w-5 text-center font-bold text-bio-400">0</span>
+              <button type="button" onclick="adjustQty('m02_qty', 1, 3)" class="w-7 h-7 rounded bg-slate-800 text-white font-bold">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- M03 -->
+        <div class="bg-slate-900/90 rounded-2xl p-4 border border-slate-800 shadow-md">
+          <div class="flex justify-between items-center mb-2">
+            <h3 class="font-bold text-sm text-bio-400">M03 - Flip the Rock</h3>
+            <span id="score_m03" class="text-xs font-bold bg-bio-500/20 text-bio-300 px-3 py-1 rounded-full border border-bio-500/30">0 pts</span>
+          </div>
+          <div class="space-y-2 text-xs">
+            <label class="flex items-center justify-between p-2 bg-slate-950/60 rounded-lg border border-slate-800 cursor-pointer">
+              <span>Research flag knocked down (+20)</span>
+              <input type="checkbox" id="m03_cb1" class="w-4 h-4 accent-bio-500" onchange="calculateScore()">
+            </label>
+            <label class="flex items-center justify-between p-2 bg-slate-950/60 rounded-lg border border-slate-800 cursor-pointer">
+              <span>Rock returned (+10)</span>
+              <input type="checkbox" id="m03_cb2" class="w-4 h-4 accent-bio-500" onchange="calculateScore()">
+            </label>
+          </div>
+        </div>
+
+        <!-- M04 -->
+        <div class="bg-slate-900/90 rounded-2xl p-4 border border-slate-800 shadow-md">
+          <div class="flex justify-between items-center mb-2">
+            <h3 class="font-bold text-sm text-bio-400">M04 - Lucky Leaves</h3>
+            <span id="score_m04" class="text-xs font-bold bg-bio-500/20 text-bio-300 px-3 py-1 rounded-full border border-bio-500/30">0 pts</span>
+          </div>
+          <div class="space-y-2 text-xs">
+            <label class="flex items-center justify-between p-2 bg-slate-950/60 rounded-lg border border-slate-800 cursor-pointer">
+              <span>Katydid left undisturbed in habitat</span>
+              <input type="checkbox" id="m04_katydid" class="w-4 h-4 accent-bio-500" onchange="calculateScore()" checked>
+            </label>
+            <div class="p-2 bg-slate-950/60 rounded-lg border border-slate-800 flex items-center justify-between">
+              <span>Leaves removed (1st=10 pts, 2nd=20 pts)</span>
+              <div class="flex items-center gap-2">
+                <button type="button" onclick="adjustQty('m04_qty', -1, 2)" class="w-7 h-7 rounded bg-slate-800 text-white font-bold">-</button>
+                <span id="m04_qty" class="w-5 text-center font-bold text-bio-400">0</span>
+                <button type="button" onclick="adjustQty('m04_qty', 1, 2)" class="w-7 h-7 rounded bg-slate-800 text-white font-bold">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- M05 -->
+        <div class="bg-slate-900/90 rounded-2xl p-4 border border-slate-800 shadow-md">
+          <div class="flex justify-between items-center mb-2">
+            <h3 class="font-bold text-sm text-bio-400">M05 - Reaching Roots</h3>
+            <span id="score_m05" class="text-xs font-bold bg-bio-500/20 text-bio-300 px-3 py-1 rounded-full border border-bio-500/30">0 pts</span>
+          </div>
+          <div class="p-2 bg-slate-950/60 rounded-lg border border-slate-800 flex items-center justify-between text-xs">
+            <span>Root extension across boundary</span>
+            <select id="m05_select" class="bg-slate-900 text-slate-200 border border-slate-700 rounded px-2 py-1" onchange="calculateScore()">
+              <option value="0">None (0 pts)</option>
+              <option value="10">Partial (+10 pts)</option>
+              <option value="20">Full (+20 pts)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- M06 -->
+        <div class="bg-slate-900/90 rounded-2xl p-4 border border-slate-800 shadow-md">
+          <div class="flex justify-between items-center mb-2">
+            <h3 class="font-bold text-sm text-bio-400">M06 - Canopy Exploration</h3>
+            <span id="score_m06" class="text-xs font-bold bg-bio-500/20 text-bio-300 px-3 py-1 rounded-full border border-bio-500/30">0 pts</span>
+          </div>
+          <label class="flex items-center justify-between p-2 bg-slate-950/60 rounded-lg border border-slate-800 cursor-pointer text-xs">
+            <span>Canopy climber positioned on top tier (+25 pts)</span>
+            <input type="checkbox" id="m06_cb1" class="w-4 h-4 accent-bio-500" onchange="calculateScore()">
+          </label>
+        </div>
+
+        <!-- M07 -->
+        <div class="bg-slate-900/90 rounded-2xl p-4 border border-slate-800 shadow-md">
+          <div class="flex justify-between items-center mb-2">
+            <h3 class="font-bold text-sm text-bio-400">M07 - Species Monitoring</h3>
+            <span id="score_m07" class="text-xs font-bold bg-bio-500/20 text-bio-300 px-3 py-1 rounded-full border border-bio-500/30">0 pts</span>
+          </div>
+          <div class="p-2 bg-slate-950/60 rounded-lg border border-slate-800 flex items-center justify-between text-xs">
+            <span>Species tags attached to wildlife (15 pts each, max 2)</span>
+            <div class="flex items-center gap-2">
+              <button type="button" onclick="adjustQty('m07_qty', -1, 2)" class="w-7 h-7 rounded bg-slate-800 text-white font-bold">-</button>
+              <span id="m07_qty" class="w-5 text-center font-bold text-bio-400">0</span>
+              <button type="button" onclick="adjustQty('m07_qty', 1, 2)" class="w-7 h-7 rounded bg-slate-800 text-white font-bold">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- M08 -->
+        <div class="bg-slate-900/90 rounded-2xl p-4 border border-slate-800 shadow-md">
+          <div class="flex justify-between items-center mb-2">
+            <h3 class="font-bold text-sm text-bio-400">M08 - Habitat Restoration</h3>
+            <span id="score_m08" class="text-xs font-bold bg-bio-500/20 text-bio-300 px-3 py-1 rounded-full border border-bio-500/30">0 pts</span>
+          </div>
+          <div class="p-2 bg-slate-950/60 rounded-lg border border-slate-800 flex items-center justify-between text-xs">
+            <span>Soil bio-blocks restored to habitat (10 pts each, max 3)</span>
+            <div class="flex items-center gap-2">
+              <button type="button" onclick="adjustQty('m08_qty', -1, 3)" class="w-7 h-7 rounded bg-slate-800 text-white font-bold">-</button>
+              <span id="m08_qty" class="w-5 text-center font-bold text-bio-400">0</span>
+              <button type="button" onclick="adjustQty('m08_qty', 1, 3)" class="w-7 h-7 rounded bg-slate-800 text-white font-bold">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- M09 -->
+        <div class="bg-slate-900/90 rounded-2xl p-4 border border-slate-800 shadow-md">
+          <div class="flex justify-between items-center mb-2">
+            <h3 class="font-bold text-sm text-bio-400">M09 - Research Platform</h3>
+            <span id="score_m09" class="text-xs font-bold bg-bio-500/20 text-bio-300 px-3 py-1 rounded-full border border-bio-500/30">0 pts</span>
+          </div>
+          <div class="space-y-2 text-xs">
+            <label class="flex items-center justify-between p-2 bg-slate-950/60 rounded-lg border border-slate-800 cursor-pointer">
+              <span>Platform raised (+10)</span>
+              <input type="checkbox" id="m09_cb1" class="w-4 h-4 accent-bio-500" onchange="calculateScore()">
+            </label>
+            <label class="flex items-center justify-between p-2 bg-slate-950/60 rounded-lg border border-slate-800 cursor-pointer">
+              <span>Camera trap deployed (+10)</span>
+              <input type="checkbox" id="m09_cb2" class="w-4 h-4 accent-bio-500" onchange="calculateScore()">
+            </label>
+            <label class="flex items-center justify-between p-2 bg-slate-950/60 rounded-lg border border-slate-800 cursor-pointer">
+              <span>Seed removed (+10)</span>
+              <input type="checkbox" id="m09_cb3" class="w-4 h-4 accent-bio-500" onchange="calculateScore()">
+            </label>
+          </div>
+        </div>
+
+        <!-- M10 -->
+        <div class="bg-slate-900/90 rounded-2xl p-4 border border-slate-800 shadow-md">
+          <div class="flex justify-between items-center mb-2">
+            <h3 class="font-bold text-sm text-bio-400">M10 - Water Sampling</h3>
+            <span id="score_m10" class="text-xs font-bold bg-bio-500/20 text-bio-300 px-3 py-1 rounded-full border border-bio-500/30">0 pts</span>
+          </div>
+          <label class="flex items-center justify-between p-2 bg-slate-950/60 rounded-lg border border-slate-800 cursor-pointer text-xs">
+            <span>Water sample purity container retrieved (+20 pts)</span>
+            <input type="checkbox" id="m10_cb1" class="w-4 h-4 accent-bio-500" onchange="calculateScore()">
+          </label>
+        </div>
+
+        <!-- M11 -->
+        <div class="bg-slate-900/90 rounded-2xl p-4 border border-slate-800 shadow-md">
+          <div class="flex justify-between items-center mb-2">
+            <h3 class="font-bold text-sm text-bio-400">M11 - Mycelium Network</h3>
+            <span id="score_m11" class="text-xs font-bold bg-bio-500/20 text-bio-300 px-3 py-1 rounded-full border border-bio-500/30">0 pts</span>
+          </div>
+          <label class="flex items-center justify-between p-2 bg-slate-950/60 rounded-lg border border-slate-800 cursor-pointer text-xs">
+            <span>Fungal spores fully connected (+25 pts)</span>
+            <input type="checkbox" id="m11_cb1" class="w-4 h-4 accent-bio-500" onchange="calculateScore()">
+          </label>
+        </div>
+
+        <!-- M12 -->
+        <div class="bg-slate-900/90 rounded-2xl p-4 border border-slate-800 shadow-md">
+          <div class="flex justify-between items-center mb-2">
+            <h3 class="font-bold text-sm text-bio-400">M12 - Forest Elder</h3>
+            <span id="score_m12" class="text-xs font-bold bg-bio-500/20 text-bio-300 px-3 py-1 rounded-full border border-bio-500/30">0 pts</span>
+          </div>
+          <label class="flex items-center justify-between p-2 bg-slate-950/60 rounded-lg border border-slate-800 cursor-pointer text-xs">
+            <span>Elder tree canopy illuminated (+20 pts)</span>
+            <input type="checkbox" id="m12_cb1" class="w-4 h-4 accent-bio-500" onchange="calculateScore()">
+          </label>
+        </div>
+
+        <!-- M13 -->
+        <div class="bg-slate-900/90 rounded-2xl p-4 border border-slate-800 shadow-md">
+          <div class="flex justify-between items-center mb-2">
+            <h3 class="font-bold text-sm text-bio-400">M13 - Keystone Species</h3>
+            <span id="score_m13" class="text-xs font-bold bg-bio-500/20 text-bio-300 px-3 py-1 rounded-full border border-bio-500/30">0 pts</span>
+          </div>
+          <label class="flex items-center justify-between p-2 bg-slate-950/60 rounded-lg border border-slate-800 cursor-pointer text-xs">
+            <span>Keystone animal built & placed (+30 pts)</span>
+            <input type="checkbox" id="m13_cb1" class="w-4 h-4 accent-bio-500" onchange="calculateScore()">
+          </label>
+        </div>
+
+        <!-- M14 -->
+        <div class="bg-slate-900/90 rounded-2xl p-4 border border-slate-800 shadow-md">
+          <div class="flex justify-between items-center mb-2">
+            <h3 class="font-bold text-sm text-bio-400">M14 - Replantation Station</h3>
+            <span id="score_m14" class="text-xs font-bold bg-bio-500/20 text-bio-300 px-3 py-1 rounded-full border border-bio-500/30">0 pts</span>
+          </div>
+          <div class="p-2 bg-slate-950/60 rounded-lg border border-slate-800 flex items-center justify-between text-xs">
+            <span>Seeds placed in station (5 pts each, max 4)</span>
+            <div class="flex items-center gap-2">
+              <button type="button" onclick="adjustQty('m14_qty', -1, 4)" class="w-7 h-7 rounded bg-slate-800 text-white font-bold">-</button>
+              <span id="m14_qty" class="w-5 text-center font-bold text-bio-400">0</span>
+              <button type="button" onclick="adjustQty('m14_qty', 1, 4)" class="w-7 h-7 rounded bg-slate-800 text-white font-bold">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- M15 -->
+        <div class="bg-slate-900/90 rounded-2xl p-4 border border-slate-800 shadow-md">
+          <div class="flex justify-between items-center mb-2">
+            <h3 class="font-bold text-sm text-bio-400">M15 - Biodiversity Hub</h3>
+            <span id="score_m15" class="text-xs font-bold bg-bio-500/20 text-bio-300 px-3 py-1 rounded-full border border-bio-500/30">0 pts</span>
+          </div>
+          <label class="flex items-center justify-between p-2 bg-slate-950/60 rounded-lg border border-slate-800 cursor-pointer text-xs">
+            <span>All species ecosystem markers linked (+20 pts)</span>
+            <input type="checkbox" id="m15_cb1" class="w-4 h-4 accent-bio-500" onchange="calculateScore()">
+          </label>
+        </div>
+
+        <!-- Precision Tokens -->
+        <div class="bg-slate-900/90 rounded-2xl p-4 border border-slate-800 shadow-md">
+          <div class="flex justify-between items-center mb-2">
+            <h3 class="font-bold text-sm text-bio-400">Precision Tokens Remaining</h3>
+            <span id="score_precision" class="text-xs font-bold bg-bio-500/20 text-bio-300 px-3 py-1 rounded-full border border-bio-500/30">50 pts</span>
+          </div>
+          <div class="p-2 bg-slate-950/60 rounded-lg border border-slate-800 flex items-center justify-between text-xs">
+            <span>Tokens left on field (6 max)</span>
+            <div class="flex items-center gap-2">
+              <button type="button" onclick="adjustTokens(-1)" class="w-7 h-7 rounded bg-slate-800 text-white font-bold">-</button>
+              <span id="precision_tokens" class="w-5 text-center font-bold text-bio-400">6</span>
+              <button type="button" onclick="adjustTokens(1)" class="w-7 h-7 rounded bg-slate-800 text-white font-bold">+</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Right Col -->
+    <div class="space-y-6">
+      <div class="bg-gradient-to-b from-bio-950/80 to-slate-900 rounded-2xl p-6 border border-bio-500/30 shadow-xl text-center sticky top-20">
+        <p class="text-xs font-semibold uppercase tracking-wider text-bio-400 mb-1">Total Score</p>
+        <div id="totalScoreDisplay" class="text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-200 via-bio-400 to-teal-300 py-2">
+          50
+        </div>
+        <p class="text-xs text-slate-400 mb-5">Calculated in real-time</p>
+
+        <button type="button" onclick="submitScoreToGoogleSheets()" class="w-full py-4 bg-gradient-to-r from-bio-600 to-emerald-500 hover:from-bio-500 hover:to-emerald-400 text-slate-950 font-bold rounded-xl shadow-lg transition transform active:scale-95 flex items-center justify-center gap-2 text-base">
+          <i data-lucide="send" class="w-5 h-5"></i>
+          Submit Score
+        </button>
+
+        <div class="mt-6 pt-6 border-t border-slate-800">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-semibold text-slate-400 flex items-center gap-1">
+              <i data-lucide="timer" class="w-4 h-4 text-bio-400"></i> Match Timer
+            </span>
+            <span id="timerDisplay" class="font-mono text-xl font-bold text-bio-300">2:30</span>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <button type="button" id="startTimerBtn" onclick="toggleTimer()" class="py-2 bg-slate-800 hover:bg-slate-700 text-xs font-semibold rounded-lg border border-slate-700 text-slate-200 transition">Start</button>
+            <button type="button" onclick="resetTimer()" class="py-2 bg-slate-800 hover:bg-slate-700 text-xs font-semibold rounded-lg border border-slate-700 text-slate-200 transition">Reset</button>
+          </div>
+        </div>
+
+        <button type="button" onclick="resetForm()" class="mt-4 w-full py-2 bg-slate-800/80 hover:bg-slate-700 text-xs text-slate-300 rounded-lg border border-slate-700">
+          Reset All Fields
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal -->
+  <div id="settingsModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 max-w-md w-full shadow-2xl space-y-4">
+      <div class="flex justify-between items-center">
+        <h3 class="font-bold text-lg text-bio-400 flex items-center gap-2">
+          <i data-lucide="sheet" class="w-5 h-5"></i> Settings
+        </h3>
+        <button onclick="closeModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+      <p class="text-xs text-slate-400">Google Apps Script Web App URL:</p>
+      <input type="text" id="scriptUrlInput" placeholder="https://script.google.com/macros/s/.../exec" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-xs text-white focus:ring-2 focus:ring-bio-500 focus:outline-none" />
+      <div class="flex justify-end gap-2 pt-2">
+        <button onclick="closeModal()" class="px-4 py-2 bg-slate-800 text-slate-300 rounded-lg text-xs font-semibold">Cancel</button>
+        <button onclick="saveSettings()" class="px-4 py-2 bg-bio-500 text-slate-950 font-bold rounded-lg text-xs">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // HARDCODED GOOGLE SCRIPT URL OPTION (Paste your Apps Script URL here if you want it hardcoded)
+    const HARDCODED_GOOGLE_SCRIPT_URL = "";
+
+    lucide.createIcons();
+
+    let timerInterval = null;
+    let timerSeconds = 150;
+    let precisionTokens = 6;
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const savedUrl = localStorage.getItem("fll_google_app_url") || "";
+      document.getElementById("scriptUrlInput").value = savedUrl;
+      calculateScore();
+    });
+
+    function calculateScore() {
+      let total = 0;
+
+      // Inspection
+      let inspection = document.getElementById("inspectionBonus").checked ? 20 : 0;
+      total += inspection;
+
+      // M01
+      let m01 = 0;
+      if (document.getElementById("m01_cb1").checked) m01 += 20;
+      if (document.getElementById("m01_cb2").checked) m01 += 10;
+      document.getElementById("score_m01").innerText = m01 + " pts";
+      total += m01;
+
+      // M02
+      let m02 = (parseInt(document.getElementById("m02_qty").innerText) || 0) * 10;
+      document.getElementById("score_m02").innerText = m02 + " pts";
+      total += m02;
+
+      // M03
+      let m03 = 0;
+      if (document.getElementById("m03_cb1").checked) m03 += 20;
+      if (document.getElementById("m03_cb2").checked) m03 += 10;
+      document.getElementById("score_m03").innerText = m03 + " pts";
+      total += m03;
+
+      // M04
+      let m04 = 0;
+      let katydid = document.getElementById("m04_katydid").checked;
+      let m04_qty = parseInt(document.getElementById("m04_qty").innerText) || 0;
+      if (katydid) {
+        if (m04_qty === 1) m04 = 10;
+        if (m04_qty === 2) m04 = 30;
+      }
+      document.getElementById("score_m04").innerText = m04 + " pts";
+      total += m04;
+
+      // M05
+      let m05 = parseInt(document.getElementById("m05_select").value) || 0;
+      document.getElementById("score_m05").innerText = m05 + " pts";
+      total += m05;
+
+      // M06
+      let m06 = document.getElementById("m06_cb1").checked ? 25 : 0;
+      document.getElementById("score_m06").innerText = m06 + " pts";
+      total += m06;
+
+      // M07
+      let m07 = (parseInt(document.getElementById("m07_qty").innerText) || 0) * 15;
+      document.getElementById("score_m07").innerText = m07 + " pts";
+      total += m07;
+
+      // M08
+      let m08 = (parseInt(document.getElementById("m08_qty").innerText) || 0) * 10;
+      document.getElementById("score_m08").innerText = m08 + " pts";
+      total += m08;
+
+      // M09
+      let m09 = 0;
+      if (document.getElementById("m09_cb1").checked) m09 += 10;
+      if (document.getElementById("m09_cb2").checked) m09 += 10;
+      if (document.getElementById("m09_cb3").checked) m09 += 10;
+      document.getElementById("score_m09").innerText = m09 + " pts";
+      total += m09;
+
+      // M10
+      let m10 = document.getElementById("m10_cb1").checked ? 20 : 0;
+      document.getElementById("score_m10").innerText = m10 + " pts";
+      total += m10;
+
+      // M11
+      let m11 = document.getElementById("m11_cb1").checked ? 25 : 0;
+      document.getElementById("score_m11").innerText = m11 + " pts";
+      total += m11;
+
+      // M12
+      let m12 = document.getElementById("m12_cb1").checked ? 20 : 0;
+      document.getElementById("score_m12").innerText = m12 + " pts";
+      total += m12;
+
+      // M13
+      let m13 = document.getElementById("m13_cb1").checked ? 30 : 0;
+      document.getElementById("score_m13").innerText = m13 + " pts";
+      total += m13;
+
+      // M14
+      let m14 = (parseInt(document.getElementById("m14_qty").innerText) || 0) * 5;
+      document.getElementById("score_m14").innerText = m14 + " pts";
+      total += m14;
+
+      // M15
+      let m15 = document.getElementById("m15_cb1").checked ? 20 : 0;
+      document.getElementById("score_m15").innerText = m15 + " pts";
+      total += m15;
+
+      // Precision Tokens
+      const tokenScores = [0, 10, 20, 30, 35, 40, 50];
+      let pScore = tokenScores[precisionTokens] || 0;
+      document.getElementById("score_precision").innerText = pScore + " pts";
+      total += pScore;
+
+      document.getElementById("totalScoreDisplay").innerText = total;
+      return total;
+    }
+
+    function adjustQty(elementId, change, max) {
+      let el = document.getElementById(elementId);
+      let val = Math.max(0, Math.min(max, (parseInt(el.innerText) || 0) + change));
+      el.innerText = val;
+      calculateScore();
+    }
+
+    function adjustTokens(change) {
+      precisionTokens = Math.max(0, Math.min(6, precisionTokens + change));
+      document.getElementById("precision_tokens").innerText = precisionTokens;
+      calculateScore();
+    }
+
+    function resetForm() {
+      document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+      document.getElementById("m04_katydid").checked = true;
+      ['m02_qty', 'm04_qty', 'm07_qty', 'm08_qty', 'm14_qty'].forEach(id => {
+        document.getElementById(id).innerText = "0";
+      });
+      document.getElementById("m05_select").value = "0";
+      precisionTokens = 6;
+      document.getElementById("precision_tokens").innerText = "6";
+      calculateScore();
+    }
+
+    function toggleTimer() {
+      const btn = document.getElementById("startTimerBtn");
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+        btn.innerText = "Start";
+        btn.classList.remove("bg-red-600");
+      } else {
+        btn.innerText = "Pause";
+        btn.classList.add("bg-red-600");
+        timerInterval = setInterval(() => {
+          if (timerSeconds > 0) {
+            timerSeconds--;
+            updateTimerDisplay();
+          } else {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            btn.innerText = "Start";
+            alert("Match Finished!");
+          }
+        }, 1000);
+      }
+    }
+
+    function resetTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+      timerInterval = null;
+      timerSeconds = 150;
+      document.getElementById("startTimerBtn").innerText = "Start";
+      document.getElementById("startTimerBtn").classList.remove("bg-red-600");
+      updateTimerDisplay();
+    }
+
+    function updateTimerDisplay() {
+      const mins = Math.floor(timerSeconds / 60);
+      const secs = timerSeconds % 60;
+      document.getElementById("timerDisplay").innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    }
+
+    async function submitScoreToGoogleSheets() {
+      const url = HARDCODED_GOOGLE_SCRIPT_URL || localStorage.getItem("fll_google_app_url");
+      if (!url) {
+        alert("Please set up your Google Apps Script URL in settings!");
+        openModal();
+        return;
+      }
+
+      const teamName = document.getElementById("teamSelect").value;
+      const totalScore = calculateScore();
+
+      const payload = {
+        timestamp: new Date().toISOString(),
+        teamName: teamName,
+        totalScore: totalScore,
+        breakdown: {
+          "Inspection Bonus": document.getElementById("inspectionBonus").checked ? "20 pts" : "0 pts",
+          "M01 Drone Survey": document.getElementById("score_m01").innerText,
+          "M02 Exploding Seeds": document.getElementById("score_m02").innerText,
+          "M03 Flip Rock": document.getElementById("score_m03").innerText,
+          "M04 Lucky Leaves": document.getElementById("score_m04").innerText,
+          "M05 Reaching Roots": document.getElementById("score_m05").innerText,
+          "M06 Canopy Exploration": document.getElementById("score_m06").innerText,
+          "M07 Species Monitor": document.getElementById("score_m07").innerText,
+          "M08 Habitat Restoration": document.getElementById("score_m08").innerText,
+          "M09 Research Platform": document.getElementById("score_m09").innerText,
+          "M10 Water Sampling": document.getElementById("score_m10").innerText,
+          "M11 Mycelium Network": document.getElementById("score_m11").innerText,
+          "M12 Forest Elder": document.getElementById("score_m12").innerText,
+          "M13 Keystone Species": document.getElementById("score_m13").innerText,
+          "M14 Replantation": document.getElementById("score_m14").innerText,
+          "M15 Biodiversity Hub": document.getElementById("score_m15").innerText,
+          "Precision Tokens": document.getElementById("score_precision").innerText
+        }
+      };
+
+      try {
+        await fetch(url, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        alert(`Score submitted successfully for Team ${teamName}!`);
+      } catch (err) {
+        console.error("Error submitting score:", err);
+        alert("Failed to send score to Google Sheets.");
+      }
+    }
+
+    const modal = document.getElementById("settingsModal");
+    document.getElementById("openSettingsBtn").addEventListener("click", openModal);
+
+    function openModal() { modal.classList.remove("hidden"); modal.classList.add("flex"); }
+    function closeModal() { modal.classList.add("hidden"); modal.classList.remove("flex"); }
+    function saveSettings() {
+      const val = document.getElementById("scriptUrlInput").value.trim();
+      localStorage.setItem("fll_google_app_url", val);
+      closeModal();
+      alert("Settings saved!");
+    }
+  </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>FLL BIOGLOW Founders Edition Scorer</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
