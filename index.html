@@ -455,13 +455,21 @@
       document.getElementById("timerDisplay").innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
     }
 
-    async function submitScoreToGoogleSheets() {
-      const url = localStorage.getItem("fll_google_app_url");
-      if (!url) {
-        alert("Please set up your Google Apps Script Web App URL in settings!");
-        openModal();
-        return;
-      }
+// Paste your exact Google Apps Script URL inside the quotes below:
+const HARDCODED_GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyc2KN-QzWPkFL8jwapYMgetlfjJ22Bwi7hLMTZ0VDuK5OK0pP0ulYLH7y3-l1tH9QS/exec";
+
+async function submitScoreToGoogleSheets() {
+  // Use hardcoded URL if available, otherwise check localStorage as backup
+  const url = HARDCODED_GOOGLE_SCRIPT_URL.includes("YOUR_APPS_SCRIPT_ID_HERE") 
+    ? localStorage.getItem("fll_google_app_url") 
+    : HARDCODED_GOOGLE_SCRIPT_URL;
+
+  if (!url) {
+    alert("Please set up your Google Apps Script Web App URL in settings!");
+    openModal();
+    return;
+  }
+  // ... rest of the code remains the same
 
       const teamName = document.getElementById("teamSelect").value;
       const totalScore = calculateScore();
