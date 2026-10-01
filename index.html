@@ -203,10 +203,14 @@
               <span>Mycelium is completely extended (+20 pts)</span>
               <input type="checkbox" id="m07_cb1" class="w-4 h-4 accent-bio-500" onchange="calculateScore()">
             </label>
-            <label class="flex items-center justify-between p-2 bg-slate-950/60 rounded-lg border border-slate-800 cursor-pointer">
-              <span>Bonus: Connection formed with opposing team's fully extended root (+10 pts)</span>
-              <input type="checkbox" id="m07_cb2" class="w-4 h-4 accent-bio-500" onchange="calculateScore()">
-            </label>
+            <div class="p-2 bg-slate-950/60 rounded-lg border border-slate-800 flex items-center justify-between">
+              <span>Bonus: Connections formed with opposing team (10 pts each, max 2)</span>
+              <div class="flex items-center gap-2">
+                <button type="button" onclick="adjustQty('m07_bonus_qty', -1, 2)" class="w-7 h-7 rounded bg-slate-800 text-white font-bold">-</button>
+                <span id="m07_bonus_qty" class="w-5 text-center font-bold text-bio-400">0</span>
+                <button type="button" onclick="adjustQty('m07_bonus_qty', 1, 2)" class="w-7 h-7 rounded bg-slate-800 text-white font-bold">+</button>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -493,12 +497,16 @@
       document.getElementById("score_m06").innerText = m06 + " pts";
       total += m06;
 
-      // M07
+      // M07 (Updated: bonus up to 2 times)
       let m07 = 0;
       let extended = document.getElementById("m07_cb1").checked;
       if (extended) {
         m07 += 20;
-        if (document.getElementById("m07_cb2").checked) m07 += 10;
+        let bonusQty = parseInt(document.getElementById("m07_bonus_qty").innerText) || 0;
+        m07 += bonusQty * 10;
+      } else {
+        // Reset bonus counter if mycelium isn't extended
+        document.getElementById("m07_bonus_qty").innerText = "0";
       }
       document.getElementById("score_m07").innerText = m07 + " pts";
       total += m07;
@@ -588,7 +596,7 @@
       document.getElementById("m04_katydid_valid").checked = true;
       document.getElementById("m10_cb1").checked = true;
       document.getElementById("m10_cb2").checked = true;
-      ['m02_qty', 'm06_qty', 'm14_contained', 'm14_touching'].forEach(id => {
+      ['m02_qty', 'm06_qty', 'm07_bonus_qty', 'm14_contained', 'm14_touching'].forEach(id => {
         document.getElementById(id).innerText = "0";
       });
       document.getElementById("m05_select").value = "0";
