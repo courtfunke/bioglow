@@ -1,27 +1,39 @@
-// tailwind.config.js
-module.exports = {
-  theme: {
-    extend: {
-      colors: {
-        canopy: {
-          DEFAULT: '#0D3B3A',
-          dark: '#082625',
-          light: '#1C7C54',
-        },
-        bioglow: {
-          DEFAULT: '#BCE388',
-          hover: '#A8D470',
-        },
-        orchid: {
-          DEFAULT: '#C792DF',
-          light: '#E2C2F0',
-        },
-        sage: {
-          50: '#F8FBF6',
-          100: '#E8F4DC',
-          200: '#D2E8BD',
-        },
-      },
-    },
-  },
-};
+:root {
+  /* Brand Primary & Secondary */
+  --color-primary: #0D3B3A;        /* Dark Canopy Green */
+  --color-primary-light: #1C7C54;  /* Jungle Green */
+  --color-accent: #BCE388;         /* Bioglow Green */
+  --color-secondary: #C792DF;      /* Orchid Purple */
+
+  /* Neutral & Base Colors */
+  --color-bg-main: #F8FBF6;        /* Light Tint Canvas */
+  --color-bg-card: #E8F4DC;        /* Soft Sage Card Background */
+  --color-text-main: #231F20;      /* Dark Off-Black */
+  --color-text-muted: #5C625B;     /* Muted Earth Leaf */
+
+  /* Status Colors */
+  --color-danger: #E53935;         /* Warning / Alert Red */
+  --color-success: #1C7C54;        /* Success Green */
+}
+
+/* Example UI Usage */
+body {
+  background-color: var(--color-bg-main);
+  color: var(--color-text-main);
+}
+
+.navbar {
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+}
+
+.btn-primary {
+  background-color: var(--color-accent);
+  color: var(--color-primary);
+  font-weight: bold;
+}
+
+.card {
+  background-color: var(--color-bg-card);
+  border: 1px solid var(--color-accent);
+}
