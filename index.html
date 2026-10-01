@@ -444,7 +444,6 @@
     let timerInterval = null;
     let timerSeconds = 150;
     let precisionTokens = 6;
-    let isCountingDown = false;
 
     document.addEventListener("DOMContentLoaded", () => {
       const savedUrl = localStorage.getItem("fll_google_app_url") || "";
@@ -610,53 +609,58 @@
       calculateScore();
     }
 
-    function startMatchCountdown() {
-      if (timerInterval) return;
-
+    function startTimerCountdown() {
       const btn = document.getElementById("startTimerBtn");
-      btn.disabled = true;
-      btn.innerText = "Ready...";
+      btn.disabled = false;
+      btn.innerText = "Pause";
+      btn.classList.add("bg-red-600");
 
-      window.speechSynthesis.cancel(); // Cancel any lingering speech
-
-      const text = "3... 2... 1... Lego!";
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.rate = 0.9;
-      utterance.pitch = 1.1;
-      utterance.lang = 'en-US';
-
-      // Start the timer when the voice says "Lego!" (or as utterance ends)
-      utterance.onend = () => {
-        btn.disabled = false;
-        btn.innerText = "Pause";
-        btn.classList.add("bg-red-600");
-        
-        timerInterval = setInterval(() => {
-          if (timerSeconds > 0) {
-            timerSeconds--;
-            updateTimerDisplay();
-          } else {
-            clearInterval(timerInterval);
-            timerInterval = null;
-            btn.innerText = "Start";
-            btn.classList.remove("bg-red-600");
-            alert("Match Finished!");
-          }
-        }, 1000);
-      };
-
-      window.speechSynthesis.speak(utterance);
+      timerInterval = setInterval(() => {
+        if (timerSeconds > 0) {
+          timerSeconds--;
+          updateTimerDisplay();
+        } else {
+          clearInterval(timerInterval);
+          timerInterval = null;
+          btn.innerText = "Start";
+          btn.classList.remove("bg-red-600");
+          alert("Match Finished!");
+        }
+      }, 1000);
     }
 
     function toggleTimer() {
       const btn = document.getElementById("startTimerBtn");
+
       if (timerInterval) {
+        // Pause timer
         clearInterval(timerInterval);
         timerInterval = null;
         btn.innerText = "Start";
         btn.classList.remove("bg-red-600");
       } else {
-        startMatchCountdown();
+        // If starting fresh from 2:30 (150s), play audio countdown first
+        if (timerSeconds === 150) {
+          btn.disabled = true;
+          btn.innerText = "Ready...";
+
+          window.speechSynthesis.cancel(); // Clear any existing speech queue
+
+          const text = "3... 2... 1... Lego!";
+          const utterance = new SpeechSynthesisUtterance(text);
+          utterance.rate = 0.9;
+          utterance.pitch = 1.1;
+          utterance.lang = 'en-US';
+
+          utterance.onend = () => {
+            startTimerCountdown();
+          };
+
+          window.speechSynthesis.speak(utterance);
+        } else {
+          // Unpausing mid-match: resume timer immediately without sound
+          startTimerCountdown();
+        }
       }
     }
 
