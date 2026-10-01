@@ -1,39 +1,21 @@
 :root {
-  /* Brand Primary & Secondary */
-  --color-primary: #0D3B3A;        /* Dark Canopy Green */
-  --color-primary-light: #1C7C54;  /* Jungle Green */
-  --color-accent: #BCE388;         /* Bioglow Green */
-  --color-secondary: #C792DF;      /* Orchid Purple */
-
-  /* Neutral & Base Colors */
-  --color-bg-main: #F8FBF6;        /* Light Tint Canvas */
-  --color-bg-card: #E8F4DC;        /* Soft Sage Card Background */
-  --color-text-main: #231F20;      /* Dark Off-Black */
-  --color-text-muted: #5C625B;     /* Muted Earth Leaf */
-
-  /* Status Colors */
-  --color-danger: #E53935;         /* Warning / Alert Red */
-  --color-success: #1C7C54;        /* Success Green */
+  --color-primary: #0D3B3A;
+  --color-accent: #BCE388;
+  --color-bg: #F8FBF6;
+  --color-text: #231F20;
 }
 
-/* Example UI Usage */
+/* This applies the colors to the page */
 body {
-  background-color: var(--color-bg-main);
-  color: var(--color-text-main);
+  background-color: var(--color-bg);
+  color: var(--color-text);
 }
 
-.navbar {
-  background-color: var(--color-primary);
-  color: #FFFFFF;
+h1, h2, h3 {
+  color: var(--color-primary);
 }
 
-.btn-primary {
+button {
   background-color: var(--color-accent);
   color: var(--color-primary);
-  font-weight: bold;
-}
-
-.card {
-  background-color: var(--color-bg-card);
-  border: 1px solid var(--color-accent);
 }
