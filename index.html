@@ -444,6 +444,7 @@
     let timerInterval = null;
     let timerSeconds = 150;
     let precisionTokens = 6;
+    let isCountingDown = false;
 
     document.addEventListener("DOMContentLoaded", () => {
       const savedUrl = localStorage.getItem("fll_google_app_url") || "";
@@ -502,7 +503,7 @@
       document.getElementById("score_m06").innerText = m06 + " pts";
       total += m06;
 
-      // M07 (Updated: bonus up to 2 times)
+      // M07
       let m07 = 0;
       let extended = document.getElementById("m07_cb1").checked;
       if (extended) {
@@ -510,7 +511,6 @@
         let bonusQty = parseInt(document.getElementById("m07_bonus_qty").innerText) || 0;
         m07 += bonusQty * 10;
       } else {
-        // Reset bonus counter if mycelium isn't extended
         document.getElementById("m07_bonus_qty").innerText = "0";
       }
       document.getElementById("score_m07").innerText = m07 + " pts";
@@ -610,16 +610,27 @@
       calculateScore();
     }
 
-    function toggleTimer() {
+    function startMatchCountdown() {
+      if (timerInterval) return;
+
       const btn = document.getElementById("startTimerBtn");
-      if (timerInterval) {
-        clearInterval(timerInterval);
-        timerInterval = null;
-        btn.innerText = "Start";
-        btn.classList.remove("bg-red-600");
-      } else {
+      btn.disabled = true;
+      btn.innerText = "Ready...";
+
+      window.speechSynthesis.cancel(); // Cancel any lingering speech
+
+      const text = "3... 2... 1... Lego!";
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = 0.9;
+      utterance.pitch = 1.1;
+      utterance.lang = 'en-US';
+
+      // Start the timer when the voice says "Lego!" (or as utterance ends)
+      utterance.onend = () => {
+        btn.disabled = false;
         btn.innerText = "Pause";
         btn.classList.add("bg-red-600");
+        
         timerInterval = setInterval(() => {
           if (timerSeconds > 0) {
             timerSeconds--;
@@ -628,18 +639,36 @@
             clearInterval(timerInterval);
             timerInterval = null;
             btn.innerText = "Start";
+            btn.classList.remove("bg-red-600");
             alert("Match Finished!");
           }
         }, 1000);
+      };
+
+      window.speechSynthesis.speak(utterance);
+    }
+
+    function toggleTimer() {
+      const btn = document.getElementById("startTimerBtn");
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+        btn.innerText = "Start";
+        btn.classList.remove("bg-red-600");
+      } else {
+        startMatchCountdown();
       }
     }
 
     function resetTimer() {
+      window.speechSynthesis.cancel();
       if (timerInterval) clearInterval(timerInterval);
       timerInterval = null;
       timerSeconds = 150;
-      document.getElementById("startTimerBtn").innerText = "Start";
-      document.getElementById("startTimerBtn").classList.remove("bg-red-600");
+      const btn = document.getElementById("startTimerBtn");
+      btn.disabled = false;
+      btn.innerText = "Start";
+      btn.classList.remove("bg-red-600");
       updateTimerDisplay();
     }
 
